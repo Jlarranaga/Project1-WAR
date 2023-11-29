@@ -32,7 +32,7 @@ header{
     grid-row: 3/4;
     display: grid;
     grid-template-columns: repeat(5, 20vmin);
-    grid-template-rows: repeat(1, 40vmin);
+    grid-template-rows: 40vmin;
 }
 
 #playerDeck{ /*TODO Will change apperance to 3 cards for war */
@@ -53,6 +53,7 @@ header{
 
 #battleComputerCard{
     grid-column: 4/5;
+    grid-row: 1/2;
     border: 5px solid black;
     border-radius: 15%;
     margin: 10px;
@@ -67,6 +68,13 @@ header{
     /*TODO apperance needs to be 3 random cards instead of deck*/
 }
 
+#battleResult{
+    grid-column: 3/4;
+    grid-row: 1/2;
+    border: 5px solid red;
+    border-radius: 15%;
+    margin: 10px;
+}
 
 /***** Button Section *****/
 
@@ -79,10 +87,18 @@ header{
 
 #duelBtn{
     grid-column: 3/4;
+    margin: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border-radius: 10%;
     /*TODO change button text when at war. Prob. DOM manipulation */
 }
 
 #surrenderBtn{
     grid-column: 5/6;
     grid-row: 2/3;
+    margin: 20px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    border-radius: 50%;
 }
