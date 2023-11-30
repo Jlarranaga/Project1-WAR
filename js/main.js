@@ -11,46 +11,24 @@ const cWarCards = []; //<-- Comp cards will hold 3 from comp deck
 let cardBack //<-- trying to access the back image of a card. 
 //const c = card.
 const cardDeck = buildDeck();
-renderDeckInContainer(cardDeck, document.getElementById('playerDeck'), document.getElementById('computerDeck'));
 
 /*----------- Variables --------------*/
 let pTotalWins //<-- holds how many rounds player or comp wins. 
 let cTotalWins
-
+let shuffledDeck
 /*----------- Cached DOM Elements -----------*/
 
 
 /*--------- Functions -----------*/
 
-function renderDeckInContainer(deck, playerDeck, computerDeck) {
-    playerDeck.innerHTML = '';
-    computerDeck.innerHTML = '';
-    
-    let cardsHtml = ''
-    //TODO need to shuffle deck before splitting
-    deck.forEach(function(card) {
-        if(pCards.length != 26) //<-- splitting card deck
-        {
-            pCards.push(card)
-        }else{
-            cCards.push(card)
-        }
-        
-    }); //TODO split array into 2 even decks, confirm with console log
 
-    // Or, use reduce to 'reduce' the array into a single thing - in this case 
-    // a string of HTML markup 
-    // const cardsHtml = deck.reduce(function(html, card) {
-    //   return html + `<div class="card ${card.face}"></div>`;
-    // }, '');
-  
-    cardsHtml = `<div class="card back-red"></div>`
-      
-    playerDeck.innerHTML = cardsHtml
-    computerDeck.innerHTML = cardsHtml
-    
+
+function renderCards(){
+    //TODO need to render cards, shuffle, split deck and display. 
+    //all functions no code here. 
+    renderNewShuffledDeck();
+    renderDeckInContainer(shuffledDeck, document.getElementById('playerDeck'), document.getElementById('computerDeck'));
 }
-
 function buildDeck() { //<-- brought in from card class (Resources)
     const deck = [];
     // Use nested forEach to generate card objects
@@ -59,21 +37,60 @@ function buildDeck() { //<-- brought in from card class (Resources)
         deck.push({
           // The 'face' property maps to the library's CSS classes for cards
           face: `${suit}${rank}`, //TODO <-- this is where the cards are made
-          //back: `${back}`
           // Setting the 'value' property for game of blackjack, not war
-          
-          
           // value: Number(rank) || (rank === 'A' ? 11 : 10) //TODO <-- do you need this?
-          
         });
       });
     });
-    
-    
-   
-   // console.log(card.face)
+    // console.log(card.face)
     return deck;
   }
+  
+  function renderNewShuffledDeck() {
+    
+    shuffledDeck = getShuffledDeck();
+  }
+
+function renderDeckInContainer(deck, playerDeck, computerDeck) {
+    playerDeck.innerHTML = '';
+    computerDeck.innerHTML = '';
+    
+    let cardsHtml = ''
+    
+    deck.forEach(function(card) {
+        if(pCards.length <= 25) //<-- splitting card deck
+        {
+            pCards.push(card)
+            
+        }else{
+            cCards.push(card)
+        }
+        
+    }); 
+    // Or, use reduce to 'reduce' the array into a single thing - in this case 
+    // a string of HTML markup 
+    // const cardsHtml = deck.reduce(function(html, card) {
+    //   return html + `<div class="card ${card.face}"></div>`;
+    // }, '');
+    cardsHtml = `<div class="card back-red"></div>`
+      
+    playerDeck.innerHTML = cardsHtml
+    computerDeck.innerHTML = cardsHtml
+    
+}
+
+  function getShuffledDeck() {
+   
+    const shuffledDeck = [];
+    while (cardDeck.length) {
+      // Get a random index for a card still in the tempDeck
+      const rndIdx = Math.floor(Math.random() * cardDeck.length);
+      // Note the [0] after splice - this is because splice always returns an array and we just want the card object in that array
+      shuffledDeck.push(cardDeck.splice(rndIdx, 1)[0]);
+    }
+    return shuffledDeck;
+  }
+
 
   function duel(){
     //TODO will handle button event and if two ranks are equal
@@ -122,5 +139,10 @@ function buildDeck() { //<-- brought in from card class (Resources)
 
 
   /*------------ Event Listeners ------------*/
-
+  renderCards();
   //TODO review event listeners
+  //TODO opening button  will say, Ready to play? then disappear and 
+  //TODO duel button will appear. call render new shuffled deck function. 
+  
+  document.getElementById('duelBtn').addEventListener('click', duel)
+ 
