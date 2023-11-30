@@ -86,19 +86,20 @@ function buildDeck() {
     //TODO down 4th card. see who wins. Call duel function
   }
 
-  function winner(surrender){
+  function winner(surrender, duel){//<-- (surrenderFunction, duelFunction)
     //TODO will find out if there is a winner
     //TODO use if statement to see if surrender was pressed with passed value
     //TODO and show player surrender
     //TODO else see if player or computer won the game with zero cards left
     //TODO in their deck. Loser lost all cards. 
 
-    return winner
+    return winnerValue
   }
 
   function surrender(){
     //TODO will handle surrender button and pass a surrender value to winner to 
     //TODO ...determine if player surrendered or not. 
+    return surrenderValue
   }
 
   function fightToTheDeath (){
@@ -111,3 +112,5 @@ function buildDeck() {
 
 
   /*------------ Event Listeners ------------*/
+
+  //TODO review event listeners
