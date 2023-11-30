@@ -18,6 +18,7 @@ let battlePCard
 let battleCCard
 let cCardCount
 let pCardCount
+let war = false;
 /*----------- Cached DOM Elements -----------*/
 
 
@@ -29,12 +30,14 @@ function renderGame(){
     //TODO need to render cards, shuffle, split deck and display. 
     //all functions no code here. 
     renderNewShuffledDeck();
-    renderDeckInContainer(shuffledDeck, document.getElementById('playerDeck'), document.getElementById('computerDeck'));
+    splitDeck(shuffledDeck)
+    renderDeckInContainer(document.getElementById('playerDeck'), document.getElementById('computerDeck'));
     totalCardCount()
+    
 }
 
 
-function totalCardCount(){
+function totalCardCount(){ //<-- Keeps track of how many cards in each players deck
     const playerCards = document.getElementById('playerCardCount')
     const compCards = document.getElementById('computerCardCount')
 
@@ -66,12 +69,22 @@ function buildDeck() { //<-- brought in from card class (Resources)
   }
 
 
-function renderDeckInContainer(deck, playerDeck, computerDeck) {
+function renderDeckInContainer(playerDeck, computerDeck) {
     playerDeck.innerHTML = '';
     computerDeck.innerHTML = '';
     
     let cardsHtml = ''
     
+    cardsHtml = `<div class="card back-red"></div>`
+      
+    playerDeck.innerHTML = cardsHtml
+    computerDeck.innerHTML = cardsHtml
+    
+}
+
+
+function splitDeck(deck){
+
     deck.forEach(function(card) {
         if(pCards.length <= 25) //<-- splitting card deck
         {
@@ -82,20 +95,10 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
         }
         
     }); 
-    // Or, use reduce to 'reduce' the array into a single thing - in this case 
-    // a string of HTML markup 
-    // const cardsHtml = deck.reduce(function(html, card) {
-    //   return html + `<div class="card ${card.face}"></div>`;
-    // }, '');
-    cardsHtml = `<div class="card back-red"></div>`
-      
-    playerDeck.innerHTML = cardsHtml
-    computerDeck.innerHTML = cardsHtml
-    
 }
 
 
-  function getShuffledDeck() {
+function getShuffledDeck() {
    
     const shuffledDeck = [];
     while (cardDeck.length) {
@@ -105,13 +108,11 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
       shuffledDeck.push(cardDeck.splice(rndIdx, 1)[0]);
     }
     return shuffledDeck;
-  }
+}
 
 
   function duel(){
-    //TODO will handle button event and if two ranks are equal
-    //TODO ...then call war function and winner function
-    //TODO AUDIO add card flipping sound
+    //TODO AUDIO -add card flipping sound
    
     renderDuelHand()
 
@@ -124,7 +125,12 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
     const cCardRank = cCard.join('')
 
     if(pCardRank === cCardRank){ //going to WAR if ranks are the same
-        war()
+        if(war){
+            //TODO get new war battle cards from the three cards pulled from war. Function probably. 
+        }else{
+            goingToWar()
+        }    
+        
     }else{ //Determines who wins the duel
         //TODO winner takes losers card
         const pRankIndex = ranks.findIndex((i) => i === pCardRank)
@@ -135,16 +141,18 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
             //console.log('battle P Card',battlePCard)
             let player = 'player'
             updatePlayerDecks(player)
+            //TODO Call winner function to see if there is a game winner
+            //TODO put message in battleResult for user to see
         }else{
             console.log('Computer WINS!!')
             let computer = 'computer'
             updatePlayerDecks(computer)
+             //TODO Call winner function to see if there is a game winner
+             //TODO put message in battleResult for user to see
         }
         
     }
 
-    //TODO return winner of the duel
-    //return duelWinner
   }
 
 
@@ -189,17 +197,25 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
   }
 
 
-  function war(){
+  function goingToWar(){
     //TODO will handle war play and see who wins all cards put up for war
+    war = true
+    renderPage(war)
     console.log('GOING TO WAR!!!')
   }
 
 
-  function renderPage(){
+  function renderPage(war){
     //TODO if going to war render war page. remove deck of cards and 
     //TODO display three cards face down and then have button say
     //TODO "fight to the death" then once button is pressed put
     //TODO down 4th card. see who wins. Call duel function
+
+    if (war){
+        //TODO render WAR page
+    }else{
+        //TODO render normal game page 
+    }
   }
 
 
