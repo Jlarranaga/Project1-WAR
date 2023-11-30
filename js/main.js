@@ -8,8 +8,6 @@ const pCards = []; //<-- Player card deck
 const cCards = []; //<-- Comp card deck
 const pWarCards = []; //<-- War cards will hold 3 from player deck
 const cWarCards = []; //<-- Comp cards will hold 3 from comp deck
-let cardBack //<-- trying to access the back image of a card. 
-//const c = card.
 const cardDeck = buildDeck();
 
 /*----------- Variables --------------*/
@@ -18,6 +16,8 @@ let cTotalWins
 let shuffledDeck
 let battlePCard 
 let battleCCard
+let cCardCount
+let pCardCount
 /*----------- Cached DOM Elements -----------*/
 
 
@@ -25,12 +25,24 @@ let battleCCard
 
 
 
-function renderCards(){
+function renderGame(){
     //TODO need to render cards, shuffle, split deck and display. 
     //all functions no code here. 
     renderNewShuffledDeck();
     renderDeckInContainer(shuffledDeck, document.getElementById('playerDeck'), document.getElementById('computerDeck'));
+    totalCardCount()
 }
+
+
+function totalCardCount(){
+    const playerCards = document.getElementById('playerCardCount')
+    const compCards = document.getElementById('computerCardCount')
+
+    playerCards.innerText = `Your Cards: ${pCards.length}`
+    compCards.innerText = `Computer Cards: ${cCards.length}`
+}
+
+
 function buildDeck() { //<-- brought in from card class (Resources)
     const deck = [];
     // Use nested forEach to generate card objects
@@ -52,6 +64,7 @@ function buildDeck() { //<-- brought in from card class (Resources)
     
     shuffledDeck = getShuffledDeck();
   }
+
 
 function renderDeckInContainer(deck, playerDeck, computerDeck) {
     playerDeck.innerHTML = '';
@@ -81,6 +94,7 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
     
 }
 
+
   function getShuffledDeck() {
    
     const shuffledDeck = [];
@@ -98,7 +112,7 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
     //TODO will handle button event and if two ranks are equal
     //TODO ...then call war function and winner function
     //TODO AUDIO add card flipping sound
-    
+   
     renderDuelHand()
 
     let pCardSplit = battlePCard.split('')
@@ -112,14 +126,19 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
     if(pCardRank === cCardRank){ //going to WAR if ranks are the same
         war()
     }else{ //Determines who wins the duel
-
+        //TODO winner takes losers card
         const pRankIndex = ranks.findIndex((i) => i === pCardRank)
         const cRankIndex = ranks.findIndex((i) => i === cCardRank)
 
         if(pRankIndex > cRankIndex){
             console.log('Player WINS!!')
+            //console.log('battle P Card',battlePCard)
+            let player = 'player'
+            updatePlayerDecks(player)
         }else{
             console.log('Computer WINS!!')
+            let computer = 'computer'
+            updatePlayerDecks(computer)
         }
         
     }
@@ -127,6 +146,26 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
     //TODO return winner of the duel
     //return duelWinner
   }
+
+
+  function updatePlayerDecks(duelWinner){
+    
+    if(duelWinner === 'player'){
+
+        const opponentCard = cCards.findIndex((card) => card.face === battleCCard)
+        pCards.push(cCards[opponentCard])
+        cCards.splice(opponentCard,1)
+        totalCardCount()
+    }else{
+
+        const opponentCard = pCards.findIndex((card) => card.face === battlePCard)
+        cCards.push(pCards[opponentCard])
+        pCards.splice(opponentCard,1)
+        totalCardCount()
+    }
+
+  }
+
 
   function renderDuelHand(){
     
@@ -149,10 +188,12 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
     battleComputerCard.innerHTML = cCardHtml
   }
 
+
   function war(){
     //TODO will handle war play and see who wins all cards put up for war
     console.log('GOING TO WAR!!!')
   }
+
 
   function renderPage(){
     //TODO if going to war render war page. remove deck of cards and 
@@ -160,6 +201,7 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
     //TODO "fight to the death" then once button is pressed put
     //TODO down 4th card. see who wins. Call duel function
   }
+
 
   function winner(surrender, duel){//<-- (surrenderFunction, duelFunction)
     //TODO will find out if there is a winner
@@ -171,11 +213,13 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
     return winnerValue
   }
 
+
   function surrender(){
     //TODO will handle surrender button and pass a surrender value to winner to 
     //TODO ...determine if player surrendered or not. 
     return surrenderValue
   }
+
 
   function fightToTheDeath (){
     //TODO call duel function and maybe play sound? 
@@ -187,7 +231,7 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
 
 
   /*------------ Event Listeners ------------*/
-  renderCards();
+  renderGame();
   //TODO review event listeners
   //TODO opening button  will say, Ready to play? then disappear and 
   //TODO duel button will appear. call render new shuffled deck function. 
