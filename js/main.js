@@ -109,10 +109,19 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
     const cCard = cCardSplit.splice(1,2)
     const cCardRank = cCard.join('')
 
-    if(pCardRank === cCardRank){
+    if(pCardRank === cCardRank){ //going to WAR if ranks are the same
         war()
-    }else if (){
+    }else{ //Determines who wins the duel
 
+        const pRankIndex = ranks.findIndex((i) => i === pCardRank)
+        const cRankIndex = ranks.findIndex((i) => i === cCardRank)
+
+        if(pRankIndex > cRankIndex){
+            console.log('Player WINS!!')
+        }else{
+            console.log('Computer WINS!!')
+        }
+        
     }
 
     //TODO return winner of the duel
