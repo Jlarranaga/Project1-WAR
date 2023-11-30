@@ -16,6 +16,8 @@ const cardDeck = buildDeck();
 let pTotalWins //<-- holds how many rounds player or comp wins. 
 let cTotalWins
 let shuffledDeck
+let battlePCard 
+let battleCCard
 /*----------- Cached DOM Elements -----------*/
 
 
@@ -95,15 +97,52 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
   function duel(){
     //TODO will handle button event and if two ranks are equal
     //TODO ...then call war function and winner function
-
+    //TODO AUDIO add card flipping sound
     
+    renderDuelHand()
+
+    let pCardSplit = battlePCard.split('')
+    const pCard = pCardSplit.splice(1,2)
+    const pCardRank = pCard.join('')
+
+    let cCardSplit = battleCCard.split('')
+    const cCard = cCardSplit.splice(1,2)
+    const cCardRank = cCard.join('')
+
+    if(pCardRank === cCardRank){
+        war()
+    }else if (){
+
+    }
 
     //TODO return winner of the duel
-    return duelWinner
+    //return duelWinner
+  }
+
+  function renderDuelHand(){
+    
+    let pCardHtml = ''
+    let cCardHtml = ''
+
+    const randPlayerIdx = Math.floor(Math.random() * pCards.length); //may need to +1 for 26 cards
+    const randCompIdx = Math.floor(Math.random() * cCards.length);
+
+    const pCard = pCards[randPlayerIdx]
+    const cCard = cCards[randCompIdx]
+
+    battlePCard = pCard.face
+    battleCCard = cCard.face
+
+    pCardHtml = `<div class="card ${battlePCard}"></div>`
+    cCardHtml = `<div class="card ${battleCCard}"></div>`
+
+    battlePlayerCard.innerHTML = pCardHtml
+    battleComputerCard.innerHTML = cCardHtml
   }
 
   function war(){
     //TODO will handle war play and see who wins all cards put up for war
+    console.log('GOING TO WAR!!!')
   }
 
   function renderPage(){
