@@ -8,7 +8,8 @@ const pCards = []; //<-- Player card deck
 const cCards = []; //<-- Comp card deck
 const pWarCards = []; //<-- War cards will hold 3 from player deck
 const cWarCards = []; //<-- Comp cards will hold 3 from comp deck
-
+let cardBack //<-- trying to access the back image of a card. 
+//const c = card.
 const cardDeck = buildDeck();
 renderDeckInContainer(cardDeck, document.getElementById('playerDeck'), document.getElementById('computerDeck'));
 
@@ -26,7 +27,7 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
     computerDeck.innerHTML = '';
     
     let cardsHtml = ''
-    
+    //TODO need to shuffle deck before splitting
     deck.forEach(function(card) {
         if(pCards.length != 26) //<-- splitting card deck
         {
@@ -34,22 +35,23 @@ function renderDeckInContainer(deck, playerDeck, computerDeck) {
         }else{
             cCards.push(card)
         }
-      //cardsHtml += `<div class="card ${card.face}"></div>`;
-      //playerDeck.innerHTML = ` ${card.back}`;
-    }); //TODO split array into 2 even decks
+        
+    }); //TODO split array into 2 even decks, confirm with console log
 
-    
     // Or, use reduce to 'reduce' the array into a single thing - in this case 
     // a string of HTML markup 
     // const cardsHtml = deck.reduce(function(html, card) {
     //   return html + `<div class="card ${card.face}"></div>`;
     // }, '');
-    console.log(cardsHtml)
-    playerDeck.innerHTML = ` ${card.back}`; //TODO display back of card
-    // TODO cont... on player and computer deck. Only need to display face when battling. 
-  }
+  
+    cardsHtml = `<div class="card back-red"></div>`
+      
+    playerDeck.innerHTML = cardsHtml
+    computerDeck.innerHTML = cardsHtml
+    
+}
 
-function buildDeck() {
+function buildDeck() { //<-- brought in from card class (Resources)
     const deck = [];
     // Use nested forEach to generate card objects
     suits.forEach(function(suit) {
@@ -57,11 +59,19 @@ function buildDeck() {
         deck.push({
           // The 'face' property maps to the library's CSS classes for cards
           face: `${suit}${rank}`, //TODO <-- this is where the cards are made
+          //back: `${back}`
           // Setting the 'value' property for game of blackjack, not war
+          
+          
           // value: Number(rank) || (rank === 'A' ? 11 : 10) //TODO <-- do you need this?
+          
         });
       });
     });
+    
+    
+   
+   // console.log(card.face)
     return deck;
   }
 
