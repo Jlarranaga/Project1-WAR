@@ -75,6 +75,19 @@ function buildDeck() { //<-- brought in from card class (Resources)
   }
 
 
+  function getShuffledDeck() {
+   
+    const shuffledDeck = [];
+    while (cardDeck.length) {
+      // Get a random index for a card still in the tempDeck
+      const rndIdx = Math.floor(Math.random() * cardDeck.length);
+      // Note the [0] after splice - this is because splice always returns an array and we just want the card object in that array
+      shuffledDeck.push(cardDeck.splice(rndIdx, 1)[0]);
+    }
+    return shuffledDeck;
+}
+
+
 function renderDeckInContainer(playerDeck, computerDeck) {
     //playerDeck.innerHTML = ''
     //computerDeck.innerHTML = ''
@@ -82,7 +95,7 @@ function renderDeckInContainer(playerDeck, computerDeck) {
     //let cardsHtml2 = ''
     //let cardsHtml3 = ''
 
-    if(war){
+    if(war){ 
 
         for(i=0; i<=2; i++){
             cardsHtml += `<div class="card back-red"></div>`
@@ -110,7 +123,7 @@ function renderDeckInContainer(playerDeck, computerDeck) {
 
 
 function splitDeck(deck){
-
+    console.log('Original Deck: ', deck)
     deck.forEach(function(card) {
         if(pCards.length <= 25) //<-- splitting card deck
         {
@@ -121,21 +134,8 @@ function splitDeck(deck){
         }
         
     }); 
-    console.log(pCards)
-    console.log(cCards)
-}
-
-
-function getShuffledDeck() {
-   
-    const shuffledDeck = [];
-    while (cardDeck.length) {
-      // Get a random index for a card still in the tempDeck
-      const rndIdx = Math.floor(Math.random() * cardDeck.length);
-      // Note the [0] after splice - this is because splice always returns an array and we just want the card object in that array
-      shuffledDeck.push(cardDeck.splice(rndIdx, 1)[0]);
-    }
-    return shuffledDeck;
+    console.log('pCards Deck: ', pCards)
+    console.log('cCards Deck: ', cCards)
 }
 
 
@@ -204,24 +204,33 @@ function getShuffledDeck() {
 
             //TODO as game goes on. 'undefined' is being put into the pCards array and this code 
             //TODO ...above cannot read the 'face' property. BUT the cCard array seems fine. 
+            //TODO *****WAR code error*****
             
         }
 
         if(war){
-            //Takes 3 war card deck and gives to winner
-            if(duelWinner === 'player'){
-
+            //Takes 3 war card deck from opponent and gives to winner and gives winner their 3 cards back as well. 
+            if(duelWinner === 'player'){ //TODO CONSOLE LOG
+                console.log('player won cWARCards:', cWarCards)
+                console.log('player won pWar Cards:', pWarCards)
                 for(i=0; i<=cWarCards.length; i++){
                     pCards.push(cWarCards[i])
+                    pCards.push(pWarCards[i])
                 }
-
+                
             }else{
                 for(i=0; i<=pWarCards.length; i++){
                     cCards.push(pWarCards[i])
+                    cCards.push(cWarCards[i])
                 }
             }
-        }
 
+            for(i=0; i<=cWarCards.length; i++){ //<-- emptying war card decks after they were distributed back to winner above
+                cWarCards.pop()
+                pWarCards.pop()
+            }
+        }
+        
         totalCardCount()
   }
 
@@ -234,8 +243,14 @@ function getShuffledDeck() {
     const randPlayerIdx = Math.floor(Math.random() * pCards.length); //may need to +1 for 26 cards
     const randCompIdx = Math.floor(Math.random() * cCards.length);
 
+    console.log('renderDualHand pCards: ', pCards)
+    console.log('renderDualHand cCards: ', cCards)
+
     const pCard = pCards[randPlayerIdx]
     const cCard = cCards[randCompIdx]
+
+    console.log('renderDuelHand pCard: ', pCard)
+    console.log('renderDuelHand cCard: ', cCard)
 
     battlePCard = pCard.face
     battleCCard = cCard.face
@@ -293,17 +308,20 @@ function getShuffledDeck() {
 
   function renderWarDeck(){
 
-    for(i=0; i<=1; i++){
+    for(i=0; i<=1; i++){ //TODO chaned to 2 and commented out. Will this solve issue? NO
         pWarCards.push(pCards[i])
         pCards.splice(i,1)
         cWarCards.push(cCards[i])
         cCards.splice(i,1)
     }
 
+    
     //Below: puts the dueling card into 3 card deck for war
     //IF: the card was already put into the war deck, it will grab the next available card. 
     const pDuelCard = pCards.findIndex ((card) => card.face === battlePCard)
-    if(pDuelCard === undefined){
+    console.log('pDeulCard: ',pDuelCard)
+    console.log('pDuelCard Card: ', pCards[pDuelCard])
+    if(pDuelCard === -1){
         pWarCards.push(pCards[0])
         pCards.splice(0,1)
     }else{
@@ -311,14 +329,23 @@ function getShuffledDeck() {
         pCards.splice(pDuelCard,1)
     }
 
+
     const cDuelCard = cCards.findIndex((card) => card.face === battleCCard)
-    if(cDuelCard === undefined){
+    console.log('cDeulCard: ',cDuelCard)
+    console.log('cDuelCard Card: ', cCards[cDuelCard])
+
+    if(cDuelCard === -1){
         cWarCards.push(cCards[0])
-        cWarCards.splice(0,1)
+        cCards.splice(0,1)
     }else{
         cWarCards.push(cCards[cDuelCard])
-        cWarCards.splice(cDuelCard,1)
+        cCards.splice(cDuelCard,1)
     }
+
+    console.log('renderWarDeck pWarCards: ', pWarCards)
+    console.log('renderWarDeck cWarCards: ', cWarCards)
+    console.log('renderWarDeck pCards: ', pCards)
+    console.log('renderWarDeck cCards: ', cCards)
     
   }
 
