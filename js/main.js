@@ -1,7 +1,6 @@
 //TODO add pseudo code!
 
 /*--------- Constants ----------*/
-
 const suits = ['s', 'c', 'd', 'h']
 const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A']
 const pCards = []; //<-- Player card deck
@@ -19,11 +18,15 @@ let battleCCard
 let cCardCount
 let pCardCount
 let war = false;
-/*----------- Cached DOM Elements -----------*/
 
+/*----------- Cached DOM Elements -----------*/
+const duelBtn = document.getElementById('duelBtn')
+const battleMsg = document.getElementById('battleResult')
+const playerDeck = document.getElementById('playerDeck')
+const computerDeck = document.getElementById('computerDeck')
+const body = document.getElementById('body')
 
 /*--------- Functions -----------*/
-
 
 
 function renderGame(){
@@ -31,7 +34,7 @@ function renderGame(){
     //all functions no code here. 
     renderNewShuffledDeck();
     splitDeck(shuffledDeck)
-    renderDeckInContainer(document.getElementById('playerDeck'), document.getElementById('computerDeck'));
+    renderDeckInContainer(playerDeck, computerDeck);
     totalCardCount()
     
 }
@@ -43,6 +46,9 @@ function totalCardCount(){ //<-- Keeps track of how many cards in each players d
 
     playerCards.innerText = `Your Cards: ${pCards.length}`
     compCards.innerText = `Computer Cards: ${cCards.length}`
+
+    endOfWar()
+    
 }
 
 
@@ -70,16 +76,36 @@ function buildDeck() { //<-- brought in from card class (Resources)
 
 
 function renderDeckInContainer(playerDeck, computerDeck) {
-    playerDeck.innerHTML = '';
-    computerDeck.innerHTML = '';
-    
+    //playerDeck.innerHTML = ''
+    //computerDeck.innerHTML = ''
     let cardsHtml = ''
-    
-    cardsHtml = `<div class="card back-red"></div>`
-      
-    playerDeck.innerHTML = cardsHtml
-    computerDeck.innerHTML = cardsHtml
-    
+    //let cardsHtml2 = ''
+    //let cardsHtml3 = ''
+
+    if(war){
+
+        for(i=0; i<=2; i++){
+            cardsHtml += `<div class="card back-red"></div>`
+        }
+        //cardsHtml = `<div class="card back-red"></div>`
+        //cardsHtml2 = `<div class="card back-red"></div>`
+        //cardsHtml3 = `<div class="card back-red"></div>`
+          
+        playerDeck.innerHTML = cardsHtml
+        //playerDeck.innerHTML = cardsHtml2
+        //playerDeck.innerHTML = cardsHtml3
+
+        computerDeck.innerHTML = cardsHtml
+        //computerDeck.innerHTML = cardsHtml2
+        //computerDeck.innerHTML = cardsHtml3
+
+    }else{
+
+        cardsHtml = `<div class="card back-red"></div>`
+          
+        playerDeck.innerHTML = cardsHtml
+        computerDeck.innerHTML = cardsHtml
+    }
 }
 
 
@@ -95,6 +121,8 @@ function splitDeck(deck){
         }
         
     }); 
+    console.log(pCards)
+    console.log(cCards)
 }
 
 
@@ -124,31 +152,33 @@ function getShuffledDeck() {
     const cCard = cCardSplit.splice(1,2)
     const cCardRank = cCard.join('')
 
+    const pRankIndex = ranks.findIndex((i) => i === pCardRank)
+    const cRankIndex = ranks.findIndex((i) => i === cCardRank)
+
     if(pCardRank === cCardRank){ //going to WAR if ranks are the same
         if(war){
-            //TODO get new war battle cards from the three cards pulled from war. Function probably. 
+            battleMsg.innerText = 'We cannot have the same rank as the enemy for war. \nReshuffling'
+            renderDuelHand()
+        
         }else{
             goingToWar()
         }    
         
     }else{ //Determines who wins the duel
-        //TODO winner takes losers card
-        const pRankIndex = ranks.findIndex((i) => i === pCardRank)
-        const cRankIndex = ranks.findIndex((i) => i === cCardRank)
-
+        
         if(pRankIndex > cRankIndex){
             console.log('Player WINS!!')
             //console.log('battle P Card',battlePCard)
             let player = 'player'
             updatePlayerDecks(player)
+            battleMsg.innerText = 'You win the duel!'
             //TODO Call winner function to see if there is a game winner
-            //TODO put message in battleResult for user to see
         }else{
             console.log('Computer WINS!!')
             let computer = 'computer'
             updatePlayerDecks(computer)
+            battleMsg.innerText = "We've lost the duel!"
              //TODO Call winner function to see if there is a game winner
-             //TODO put message in battleResult for user to see
         }
         
     }
@@ -158,20 +188,41 @@ function getShuffledDeck() {
 
   function updatePlayerDecks(duelWinner){
     
-    if(duelWinner === 'player'){
+        if(duelWinner === 'player'){
 
-        const opponentCard = cCards.findIndex((card) => card.face === battleCCard)
-        pCards.push(cCards[opponentCard])
-        cCards.splice(opponentCard,1)
+            const opponentCard = cCards.findIndex((card) => card.face === battleCCard)
+            pCards.push(cCards[opponentCard])
+            cCards.splice(opponentCard,1)
+            
+        }else{
+
+            console.log('Battle P Card: ', battlePCard)
+            console.log('P Card arr: ', pCards)
+            const opponentCard = pCards.findIndex((card) => card.face === battlePCard)
+            cCards.push(pCards[opponentCard])
+            pCards.splice(opponentCard,1)
+
+            //TODO as game goes on. 'undefined' is being put into the pCards array and this code 
+            //TODO ...above cannot read the 'face' property. BUT the cCard array seems fine. 
+            
+        }
+
+        if(war){
+            //Takes 3 war card deck and gives to winner
+            if(duelWinner === 'player'){
+
+                for(i=0; i<=cWarCards.length; i++){
+                    pCards.push(cWarCards[i])
+                }
+
+            }else{
+                for(i=0; i<=pWarCards.length; i++){
+                    cCards.push(pWarCards[i])
+                }
+            }
+        }
+
         totalCardCount()
-    }else{
-
-        const opponentCard = pCards.findIndex((card) => card.face === battlePCard)
-        cCards.push(pCards[opponentCard])
-        pCards.splice(opponentCard,1)
-        totalCardCount()
-    }
-
   }
 
 
@@ -194,14 +245,26 @@ function getShuffledDeck() {
 
     battlePlayerCard.innerHTML = pCardHtml
     battleComputerCard.innerHTML = cCardHtml
+    
   }
 
+ /********************* WAR Functions *************************/
 
   function goingToWar(){
     //TODO will handle war play and see who wins all cards put up for war
     war = true
     renderPage(war)
+    battleMsg.innerText = 'My Lord! We are going to WAR!'
     console.log('GOING TO WAR!!!')
+    //TODO need to render board back to normal and war = false after war is over 
+  }
+
+
+  function endOfWar(){
+    if(war){
+        war = false
+        renderPage(war)
+    }
   }
 
 
@@ -212,10 +275,51 @@ function getShuffledDeck() {
     //TODO down 4th card. see who wins. Call duel function
 
     if (war){
+        renderDeckInContainer(playerDeck, computerDeck)
+        renderWarDeck()
+        duelBtn.innerText = 'Go to WAR!'
+        battleMsg.innerText = 'My King! \nThe enemy has gathered an army! \nPrepare for WAR!'
+        body.style.backgroundColor = 'red'
         //TODO render WAR page
     }else{
+        renderDeckInContainer(playerDeck, computerDeck)
+        duelBtn.innerText = 'Duel!'
+        body.style.backgroundColor = 'white'
+         
         //TODO render normal game page 
     }
+  }
+
+
+  function renderWarDeck(){
+
+    for(i=0; i<=1; i++){
+        pWarCards.push(pCards[i])
+        pCards.splice(i,1)
+        cWarCards.push(cCards[i])
+        cCards.splice(i,1)
+    }
+
+    //Below: puts the dueling card into 3 card deck for war
+    //IF: the card was already put into the war deck, it will grab the next available card. 
+    const pDuelCard = pCards.findIndex ((card) => card.face === battlePCard)
+    if(pDuelCard === undefined){
+        pWarCards.push(pCards[0])
+        pCards.splice(0,1)
+    }else{
+        pWarCards.push(pCards[pDuelCard])
+        pCards.splice(pDuelCard,1)
+    }
+
+    const cDuelCard = cCards.findIndex((card) => card.face === battleCCard)
+    if(cDuelCard === undefined){
+        cWarCards.push(cCards[0])
+        cWarCards.splice(0,1)
+    }else{
+        cWarCards.push(cCards[cDuelCard])
+        cWarCards.splice(cDuelCard,1)
+    }
+    
   }
 
 
