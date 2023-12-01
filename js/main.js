@@ -210,27 +210,32 @@ function splitDeck(deck){
 
         if(war){
             //Takes 3 war card deck from opponent and gives to winner and gives winner their 3 cards back as well. 
-            if(duelWinner === 'player'){ //TODO CONSOLE LOG
+            if(duelWinner === 'player'){ //TODO CONSOLE LOG 
+                //TODO In WAR code you are adding more cards in than what is needed creating 'undefined' array data *********************************************************
+
                 console.log('player won cWARCards:', cWarCards)
                 console.log('player won pWar Cards:', pWarCards)
-                for(i=0; i<=cWarCards.length; i++){
+                for(i=0; i<cWarCards.length; i++){ //TODO possibly change all for loops to for Each loops
                     pCards.push(cWarCards[i])
                     pCards.push(pWarCards[i])
                 }
                 
             }else{
-                for(i=0; i<=pWarCards.length; i++){
+                for(i=0; i<pWarCards.length; i++){
                     cCards.push(pWarCards[i])
                     cCards.push(cWarCards[i])
                 }
             }
 
-            for(i=0; i<=cWarCards.length; i++){ //<-- emptying war card decks after they were distributed back to winner above
+            for(i=0; i<3; i++){ //<-- emptying war card decks after they were distributed back to winner above
                 cWarCards.pop()
                 pWarCards.pop()
             }
         }
-        
+        console.log('updatePlayerDecks pWarCards: ',pWarCards)
+        console.log('updatePlayerDecks cWarCards: ',cWarCards)
+        console.log('updatePlayerDecks pCards: ',pCards)
+        console.log('updatePlayerDecks cCards: ',cCards)
         totalCardCount()
   }
 
@@ -331,6 +336,7 @@ function splitDeck(deck){
 
 
     const cDuelCard = cCards.findIndex((card) => card.face === battleCCard)
+
     console.log('cDeulCard: ',cDuelCard)
     console.log('cDuelCard Card: ', cCards[cDuelCard])
 
