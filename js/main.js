@@ -7,7 +7,7 @@ const pCards = []; //<-- Player card deck
 const cCards = []; //<-- Comp card deck
 const pWarCards = []; //<-- War cards will hold 3 from player deck
 const cWarCards = []; //<-- Comp cards will hold 3 from comp deck
-const cardDeck = buildDeck();
+
 
 /*----------- Variables --------------*/
 let pTotalWins //<-- holds how many rounds player or comp wins. 
@@ -17,7 +17,9 @@ let battlePCard
 let battleCCard
 let cCardCount
 let pCardCount
-let war = false;
+let war = false
+let winnerValue = false
+let cardDeck = buildDeck()
 
 /*----------- Cached DOM Elements -----------*/
 const duelBtn = document.getElementById('duelBtn')
@@ -30,8 +32,7 @@ const body = document.getElementById('body')
 
 
 function renderGame(){
-    //TODO need to render cards, shuffle, split deck and display. 
-    //all functions no code here. 
+    //TODO split deck and getting new card deck isnt working when you play again or surrender ***********************
     renderNewShuffledDeck();
     splitDeck(shuffledDeck)
     renderDeckInContainer(playerDeck, computerDeck);
@@ -39,6 +40,10 @@ function renderGame(){
     
 }
 
+// function deck(){
+//     const deck = buildDeck();
+//     return deck
+// }
 
 function totalCardCount(){ //<-- Keeps track of how many cards in each players deck
     const playerCards = document.getElementById('playerCardCount')
@@ -141,8 +146,14 @@ function splitDeck(deck){
 
   function duel(){
     //TODO AUDIO -add card flipping sound
-   
+   if(winnerValue === true){
+    resetGame()
+    renderGame()
+    return
+   }
+
     renderDuelHand()
+    let duelWinner
 
     let pCardSplit = battlePCard.split('')
     const pCard = pCardSplit.splice(1,2)
@@ -169,19 +180,21 @@ function splitDeck(deck){
         if(pRankIndex > cRankIndex){
             console.log('Player WINS!!')
             //console.log('battle P Card',battlePCard)
-            let player = 'player'
-            updatePlayerDecks(player)
+            duelWinner = 'player'
+            updatePlayerDecks(duelWinner)
             battleMsg.innerText = 'You win the duel!'
             //TODO Call winner function to see if there is a game winner
         }else{
             console.log('Computer WINS!!')
-            let computer = 'computer'
-            updatePlayerDecks(computer)
+            duelWinner = 'computer'
+            updatePlayerDecks(duelWinner)
             battleMsg.innerText = "We've lost the duel!"
              //TODO Call winner function to see if there is a game winner
         }
         
     }
+
+    winner(false)
 
   }
 
@@ -189,33 +202,21 @@ function splitDeck(deck){
   function updatePlayerDecks(duelWinner){
     
         if(duelWinner === 'player'){
-
             const opponentCard = cCards.findIndex((card) => card.face === battleCCard)
             pCards.push(cCards[opponentCard])
             cCards.splice(opponentCard,1)
-            
         }else{
-
             console.log('Battle P Card: ', battlePCard)
             console.log('P Card arr: ', pCards)
             const opponentCard = pCards.findIndex((card) => card.face === battlePCard)
             cCards.push(pCards[opponentCard])
             pCards.splice(opponentCard,1)
-
-            //TODO as game goes on. 'undefined' is being put into the pCards array and this code 
-            //TODO ...above cannot read the 'face' property. BUT the cCard array seems fine. 
-            //TODO *****WAR code error*****
-            
         }
 
         if(war){
             //Takes 3 war card deck from opponent and gives to winner and gives winner their 3 cards back as well. 
-            if(duelWinner === 'player'){ //TODO CONSOLE LOG 
-                //TODO In WAR code you are adding more cards in than what is needed creating 'undefined' array data *********************************************************
-
-                console.log('player won cWARCards:', cWarCards)
-                console.log('player won pWar Cards:', pWarCards)
-                for(i=0; i<cWarCards.length; i++){ //TODO possibly change all for loops to for Each loops
+            if(duelWinner === 'player'){ 
+                for(i=0; i<cWarCards.length; i++){ 
                     pCards.push(cWarCards[i])
                     pCards.push(pWarCards[i])
                 }
@@ -226,16 +227,11 @@ function splitDeck(deck){
                     cCards.push(cWarCards[i])
                 }
             }
-
             for(i=0; i<3; i++){ //<-- emptying war card decks after they were distributed back to winner above
                 cWarCards.pop()
                 pWarCards.pop()
             }
         }
-        console.log('updatePlayerDecks pWarCards: ',pWarCards)
-        console.log('updatePlayerDecks cWarCards: ',cWarCards)
-        console.log('updatePlayerDecks pCards: ',pCards)
-        console.log('updatePlayerDecks cCards: ',cCards)
         totalCardCount()
   }
 
@@ -313,19 +309,21 @@ function splitDeck(deck){
 
   function renderWarDeck(){
 
-    for(i=0; i<=1; i++){ //TODO chaned to 2 and commented out. Will this solve issue? NO
+    for(i=0; i<=1; i++){ 
+        if(pCards[i] === undefined || cCards[i] === undefined){
+            //Do nothing, since there are no more cards in deck to access. 
+        }else{
         pWarCards.push(pCards[i])
         pCards.splice(i,1)
         cWarCards.push(cCards[i])
         cCards.splice(i,1)
+        }
     }
 
     
     //Below: puts the dueling card into 3 card deck for war
     //IF: the card was already put into the war deck, it will grab the next available card. 
     const pDuelCard = pCards.findIndex ((card) => card.face === battlePCard)
-    console.log('pDeulCard: ',pDuelCard)
-    console.log('pDuelCard Card: ', pCards[pDuelCard])
     if(pDuelCard === -1){
         pWarCards.push(pCards[0])
         pCards.splice(0,1)
@@ -336,10 +334,6 @@ function splitDeck(deck){
 
 
     const cDuelCard = cCards.findIndex((card) => card.face === battleCCard)
-
-    console.log('cDeulCard: ',cDuelCard)
-    console.log('cDuelCard Card: ', cCards[cDuelCard])
-
     if(cDuelCard === -1){
         cWarCards.push(cCards[0])
         cCards.splice(0,1)
@@ -347,40 +341,55 @@ function splitDeck(deck){
         cWarCards.push(cCards[cDuelCard])
         cCards.splice(cDuelCard,1)
     }
-
-    console.log('renderWarDeck pWarCards: ', pWarCards)
-    console.log('renderWarDeck cWarCards: ', cWarCards)
-    console.log('renderWarDeck pCards: ', pCards)
-    console.log('renderWarDeck cCards: ', cCards)
-    
   }
 
 
-  function winner(surrender, duel){//<-- (surrenderFunction, duelFunction)
+  function winner(surrender){//<-- (surrenderFunction, duelFunction) //TODO Do winner function! **************************************************
     //TODO will find out if there is a winner
     //TODO use if statement to see if surrender was pressed with passed value
     //TODO and show player surrender
     //TODO else see if player or computer won the game with zero cards left
     //TODO in their deck. Loser lost all cards. 
-
-    return winnerValue
+    
+    if(surrender){
+        //player surrrendered and computer wins by defauly
+        //but show who was winning in the moment. 
+        battleMsg.innerText = "We've surrendered..."
+        winnerValue = true
+        duelBtn.innerText = "Play Again?"
+    }else{
+        if(pCards.length === 0){
+            //computer won
+            battleMsg.innerText = "We've lost my lord. \nThe enemy will storm the castle soon!"
+            winnerValue = true
+            duelBtn.innerText = "Play Again?"
+        }else if(cCards.length === 0){
+            //player won
+            battleMsg.innerText = "We've won my lord! \nThey were foolish to defy us!"
+            winnerValue = true
+            duelBtn.innerText = "Play Again?"
+        }
+    }
   }
 
 
-  function surrender(){
-    //TODO will handle surrender button and pass a surrender value to winner to 
-    //TODO ...determine if player surrendered or not. 
-    return surrenderValue
+  function resetGame(){ //TODO Resetting game not working right. **************************
+                        //TODO player cards reset to 26 but computer cards keeps increasing by 26
+    for(i=0; i<pCards.length; i++){
+        pCards.pop()
+    }
+
+    for(i=0; i<cCards.length; i++){
+        cCards.pop()
+    }
+
+    cardDeck = buildDeck()
+    shuffledDeck = null
+    winnerValue = false
+    duelBtn.innerText = 'Duel!'
+    battleMsg.innerText = 'Time to duel again!'
   }
-
-
-  function fightToTheDeath (){
-    //TODO call duel function and maybe play sound? 
-
-    //TODO get winner from duel function then return that to warWinner
-    //TODO return winner of the war round
-    return warWinner
-  }
+  
 
 
   /*------------ Event Listeners ------------*/
@@ -389,5 +398,12 @@ function splitDeck(deck){
   //TODO opening button  will say, Ready to play? then disappear and 
   //TODO duel button will appear. call render new shuffled deck function. 
   
-  document.getElementById('duelBtn').addEventListener('click', duel)
+  document.getElementById('duelBtn').addEventListener('click', (e) => {
+    e.stopPropagation() //<-- used to stop button from being run when page loads
+    duel()
+  })
+  document.getElementById('surrenderBtn').addEventListener('click',(e) => {
+    e.stopPropagation() //<-- used to stop button from being run when page loads
+    winner(true)
+  })
  
