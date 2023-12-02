@@ -373,13 +373,16 @@ function splitDeck(deck){
   }
 
 
-  function resetGame(){ //TODO Resetting game not working right. **************************
-                        //TODO player cards reset to 26 but computer cards keeps increasing by 26
-    for(i=0; i<pCards.length; i++){
+  function resetGame(){ 
+
+    let pCardLength = pCards.length
+    let cCardLength = cCards.length   
+
+    for(i=0; i<pCardLength; i++){
         pCards.pop()
     }
 
-    for(i=0; i<cCards.length; i++){
+    for(i=0; i<cCardLength; i++){
         cCards.pop()
     }
 
