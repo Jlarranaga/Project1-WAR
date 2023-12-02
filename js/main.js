@@ -1,4 +1,3 @@
-//TODO add pseudo code!
 
 /*--------- Constants ----------*/
 const suits = ['s', 'c', 'd', 'h']
@@ -32,7 +31,6 @@ const body = document.getElementById('body')
 
 
 function renderGame(){
-    //TODO split deck and getting new card deck isnt working when you play again or surrender ***********************
     renderNewShuffledDeck();
     splitDeck(shuffledDeck)
     renderDeckInContainer(playerDeck, computerDeck);
@@ -64,9 +62,7 @@ function buildDeck() { //<-- brought in from card class (Resources)
       ranks.forEach(function(rank) {
         deck.push({
           // The 'face' property maps to the library's CSS classes for cards
-          face: `${suit}${rank}`, //TODO <-- this is where the cards are made
-          // Setting the 'value' property for game of blackjack, not war
-          // value: Number(rank) || (rank === 'A' ? 11 : 10) //TODO <-- do you need this?
+          face: `${suit}${rank}`,
         });
       });
     });
@@ -183,13 +179,11 @@ function splitDeck(deck){
             duelWinner = 'player'
             updatePlayerDecks(duelWinner)
             battleMsg.innerText = 'You win the duel!'
-            //TODO Call winner function to see if there is a game winner
         }else{
             console.log('Computer WINS!!')
             duelWinner = 'computer'
             updatePlayerDecks(duelWinner)
             battleMsg.innerText = "We've lost the duel!"
-             //TODO Call winner function to see if there is a game winner
         }
         
     }
@@ -267,12 +261,10 @@ function splitDeck(deck){
  /********************* WAR Functions *************************/
 
   function goingToWar(){
-    //TODO will handle war play and see who wins all cards put up for war
     war = true
     renderPage(war)
     battleMsg.innerText = 'My Lord! We are going to WAR!'
     console.log('GOING TO WAR!!!')
-    //TODO need to render board back to normal and war = false after war is over 
   }
 
 
@@ -285,24 +277,17 @@ function splitDeck(deck){
 
 
   function renderPage(war){
-    //TODO if going to war render war page. remove deck of cards and 
-    //TODO display three cards face down and then have button say
-    //TODO "fight to the death" then once button is pressed put
-    //TODO down 4th card. see who wins. Call duel function
-
+    
     if (war){
         renderDeckInContainer(playerDeck, computerDeck)
         renderWarDeck()
         duelBtn.innerText = 'Go to WAR!'
         battleMsg.innerText = 'My King! \nThe enemy has gathered an army! \nPrepare for WAR!'
         body.style.backgroundColor = 'red'
-        //TODO render WAR page
     }else{
         renderDeckInContainer(playerDeck, computerDeck)
         duelBtn.innerText = 'Duel!'
         body.style.backgroundColor = 'white'
-         
-        //TODO render normal game page 
     }
   }
 
@@ -344,13 +329,7 @@ function splitDeck(deck){
   }
 
 
-  function winner(surrender){//<-- (surrenderFunction, duelFunction) //TODO Do winner function! **************************************************
-    //TODO will find out if there is a winner
-    //TODO use if statement to see if surrender was pressed with passed value
-    //TODO and show player surrender
-    //TODO else see if player or computer won the game with zero cards left
-    //TODO in their deck. Loser lost all cards. 
-    
+  function winner(surrender){
     if(surrender){
         //player surrrendered and computer wins by defauly
         //but show who was winning in the moment. 
@@ -397,7 +376,6 @@ function splitDeck(deck){
 
   /*------------ Event Listeners ------------*/
   renderGame();
-  //TODO review event listeners
   //TODO opening button  will say, Ready to play? then disappear and 
   //TODO duel button will appear. call render new shuffled deck function. 
   
