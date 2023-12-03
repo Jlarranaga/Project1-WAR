@@ -26,11 +26,13 @@ const battleMsg = document.getElementById('battleResult')
 const playerDeck = document.getElementById('playerDeck')
 const computerDeck = document.getElementById('computerDeck')
 const body = document.getElementById('body')
+const video = document.getElementById('backgroundVideo')
 
 /*--------- Functions -----------*/
 
 
 function renderGame(){
+    body.style.background = video
     renderNewShuffledDeck();
     splitDeck(shuffledDeck)
     renderDeckInContainer(playerDeck, computerDeck);
@@ -38,10 +40,6 @@ function renderGame(){
     
 }
 
-// function deck(){
-//     const deck = buildDeck();
-//     return deck
-// }
 
 function totalCardCount(){ //<-- Keeps track of how many cards in each players deck
     const playerCards = document.getElementById('playerCardCount')

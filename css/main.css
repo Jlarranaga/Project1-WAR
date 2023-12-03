@@ -1,8 +1,20 @@
 *{
     box-sizing: border-box;
 }
+video{
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1; /*<-- this is what makes the video go to the background */
+}
 
-body {
+#body {
+    justify-content: center;
     height: 100vh;
     display: grid;
     grid-template-columns: 20vmin 20vmin 20vmin 20vmin 20vmin;
@@ -40,8 +52,17 @@ header{
     border: 5px solid black;
     border-radius: 15%;
     margin: 10px;
+    position: relative;
     /*TODO figure how to change apperance based on going to war. 
     /*TODO apperance needs to be 3 random cards instead of deck*/
+}
+
+#playerDeck img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    position: absolute;
+    z-index: -1;
 }
 
 #battlePlayerCard{
@@ -102,3 +123,23 @@ header{
     margin-bottom: 50px;
     border-radius: 50%;
 }
+
+
+
+/* #videoDiv{
+    
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+#backgroundVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+} */
