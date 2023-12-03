@@ -1,6 +1,12 @@
+@font-face {
+    font-family: medievalsharp-regular;
+    src: url('/font/MedievalSharp-Regular.ttf');
+}
+
 *{
     box-sizing: border-box;
 }
+
 video{
     object-fit: cover;
     width: 100vw;
@@ -14,7 +20,9 @@ video{
 }
 
 #body {
+    position: relative;
     justify-content: center;
+    /* justify-items: center; */
     height: 100vh;
     display: grid;
     grid-template-columns: 20vmin 20vmin 20vmin 20vmin 20vmin;
@@ -22,8 +30,16 @@ video{
 }
 
 header{
+    display: grid;
     grid-row: 1 /2;
     grid-column: 3/4;
+    font-family: medievalsharp-regular;
+    font-size: 10vw;
+    font-weight: bold;
+    text-shadow: 0 0 5px #FF0000, 0 0 10px #ff0000;
+    align-items: center;
+    justify-items: center;
+    
 }
 
 /***** Scores Section *****/
@@ -32,6 +48,17 @@ header{
     grid-row: 2/3;
     display: grid;
     grid-template-columns: repeat(5, 20vmin);
+    font-family: medievalsharp-regular;
+    font-size: 2.6vw;
+   
+}
+
+#playerCardCount{
+    text-shadow: 0 0 5px #0400ff, 0 0 5px #ffffff;
+}
+
+#computerCardCount{
+    text-shadow: 0 0 5px #f80000, 0 0 5px #0004ff;
 }
 
 #computerCardCount{
@@ -50,19 +77,30 @@ header{
 #playerDeck{ /*TODO Will change apperance to 3 cards for war */
     grid-row: 1/2;
     border: 5px solid black;
-    border-radius: 15%;
     margin: 10px;
-    position: relative;
+    display: grid;
+    grid-template-columns: 20vmin;
+    grid-template-rows: 40vmin;
+    object-fit: cover;
+    
     /*TODO figure how to change apperance based on going to war. 
     /*TODO apperance needs to be 3 random cards instead of deck*/
 }
 
-#playerDeck img{
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
+#playerDeckBackground{
+    grid-row: 1/2; 
+    grid-column: 1/2;
     position: absolute;
-    z-index: -1;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    
+    /* display: inline-block;  */
+    /* height: 100vh; */
+    /* width: 100vw; */
+    /* z-index: 0; */
+    /* visibility: visible; */
 }
 
 #battlePlayerCard{
