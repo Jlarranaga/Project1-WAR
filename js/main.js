@@ -31,6 +31,7 @@ const video = document.getElementById('backgroundVideo')
 
 function renderGame(){
     duelBtn.innerText = 'Start'
+    battleMsg.innerText = 'Click Start\n to begin!'
     body.style.background = video
     renderNewShuffledDeck();
     splitDeck(shuffledDeck)
@@ -128,7 +129,7 @@ function splitDeck(deck){
 
 
   function duel(){
-    //TODO AUDIO -add card flipping sound
+    
    if(winnerValue === true){
     resetGame()
     renderGame()
@@ -136,10 +137,7 @@ function splitDeck(deck){
    }
    duelBtn.innerText = 'Duel!'
 
-    const interval =  setInterval(() =>{
     renderDuelHand()
-    clearInterval(interval)
-   }, 300)
     
     let duelWinner
 
@@ -156,7 +154,11 @@ function splitDeck(deck){
 
     if(pCardRank === cCardRank){ //going to WAR if ranks are the same
         if(war){
-            battleMsg.innerText = 'We cannot have\n the same rank as\n the enemy for war. \nReshuffling'
+            const interval =  setInterval(() =>{
+                battleMsg.innerText = 'We cannot have\n the same rank as\n the enemy for war. \nReshuffling'
+                clearInterval(interval)
+            }, 300)
+            
             renderDuelHand()
         
         }else{
@@ -170,22 +172,21 @@ function splitDeck(deck){
             //console.log('battle P Card',battlePCard)
             duelWinner = 'player'
             updatePlayerDecks(duelWinner)
-
-            const p =  setInterval(() =>{
-                battleMsg.innerText = 'You win \nthe duel!'
-                clearInterval(p)
-               }, 300)
             
+            const interval =  setInterval(() =>{
+                battleMsg.innerText = 'You win \nthe duel!'
+                clearInterval(interval)
+            }, 300)
+           
         }else{
             console.log('Computer WINS!!')
             duelWinner = 'computer'
             updatePlayerDecks(duelWinner)
 
-             const c =  setInterval(() =>{
+            const interval =  setInterval(() =>{
                 battleMsg.innerText = "We've lost\n the duel!"
-                clearInterval(c)
-               }, 300)
-            
+                clearInterval(interval)
+            }, 300)
         }
         
     }
@@ -255,10 +256,16 @@ function splitDeck(deck){
     pCardHtml = `<div class="card ${battlePCard}"></div>`
     cCardHtml = `<div class="card ${battleCCard}"></div>`
 
+    const interval =  setInterval(() =>{
+
     battlePlayerCard.innerHTML = pCardHtml
     battleComputerCard.innerHTML = cCardHtml
     
-    return
+    CardAUDIO.play()
+
+    clearInterval(interval)
+}, 300)
+    
   }
 
  /********************* WAR Functions *************************/
@@ -266,7 +273,12 @@ function splitDeck(deck){
   function goingToWar(){
     war = true
     renderPage(war)
-    battleMsg.innerText = 'My Lord!\n We are going\n to WAR!'
+
+    const interval =  setInterval(() =>{
+        battleMsg.innerText = 'My Lord!\n We are going\n to WAR!'
+        clearInterval(interval)
+    }, 300)
+    
     console.log('GOING TO WAR!!!')
   }
 
@@ -284,8 +296,13 @@ function splitDeck(deck){
     if (war){
         renderDeckInContainer(playerDeck, computerDeck)
         renderWarDeck()
-        duelBtn.innerText = 'Go to\n WAR!'
-        battleMsg.innerText = 'My King! \nThe enemy has \ngathered an army! \nPrepare for WAR!'
+
+        const interval =  setInterval(() =>{
+            duelBtn.innerText = 'Go to\n WAR!'
+            battleMsg.innerText = 'My King! \nThe enemy has \ngathered an army! \nPrepare for WAR!'
+            clearInterval(interval)
+        }, 300)
+        
     }else{
         renderDeckInContainer(playerDeck, computerDeck)
         duelBtn.innerText = 'Duel!'
@@ -383,7 +400,6 @@ function splitDeck(deck){
   document.getElementById('duelBtn').addEventListener('click', (e) => {
     e.stopPropagation() //<-- used to stop button from being run when page loads
     duel()
-    CardAUDIO.play()
   })
   document.getElementById('surrenderBtn').addEventListener('click',(e) => {
     e.stopPropagation() //<-- used to stop button from being run when page loads
