@@ -6,7 +6,7 @@ const pCards = []; //<-- Player card deck
 const cCards = []; //<-- Comp card deck
 const pWarCards = []; //<-- War cards will hold 3 from player deck
 const cWarCards = []; //<-- Comp cards will hold 3 from comp deck
-
+const CardAUDIO = new Audio('/audio/CardFlip.mp3');
 
 /*----------- Variables --------------*/
 let shuffledDeck
@@ -30,6 +30,7 @@ const video = document.getElementById('backgroundVideo')
 
 
 function renderGame(){
+    duelBtn.innerText = 'Start'
     body.style.background = video
     renderNewShuffledDeck();
     splitDeck(shuffledDeck)
@@ -86,33 +87,23 @@ function buildDeck() { //<-- brought in from card class (Resources)
 
 
 function renderDeckInContainer(playerDeck, computerDeck) {
-    //playerDeck.innerHTML = ''
-    //computerDeck.innerHTML = ''
+    
     let cardsHtml = ''
-    //let cardsHtml2 = ''
-    //let cardsHtml3 = ''
+    
 
     if(war){ 
 
         for(i=0; i<=2; i++){
-            cardsHtml += `<div class="card-back-red"></div>`
+            cardsHtml += `<div class="card back-red" id="warDeck"></div>`
         }
-        //cardsHtml = `<div class="card back-red"></div>`
-        //cardsHtml2 = `<div class="card back-red"></div>`
-        //cardsHtml3 = `<div class="card back-red"></div>`
-          
+        
         playerDeck.innerHTML = cardsHtml
-        //playerDeck.innerHTML = cardsHtml2
-        //playerDeck.innerHTML = cardsHtml3
-
         computerDeck.innerHTML = cardsHtml
-        //computerDeck.innerHTML = cardsHtml2
-        //computerDeck.innerHTML = cardsHtml3
 
     }else{
 
         cardsHtml = `<div class="card back-red"></div>`
-          //TODO HELP*************************** Card wont show on top of paper
+          
         playerDeck.innerHTML = cardsHtml
         computerDeck.innerHTML = cardsHtml
     }
@@ -143,8 +134,13 @@ function splitDeck(deck){
     renderGame()
     return
    }
+   duelBtn.innerText = 'Duel!'
 
+    const interval =  setInterval(() =>{
     renderDuelHand()
+    clearInterval(interval)
+   }, 300)
+    
     let duelWinner
 
     let pCardSplit = battlePCard.split('')
@@ -160,7 +156,7 @@ function splitDeck(deck){
 
     if(pCardRank === cCardRank){ //going to WAR if ranks are the same
         if(war){
-            battleMsg.innerText = 'We cannot have the same rank as the enemy for war. \nReshuffling'
+            battleMsg.innerText = 'We cannot have\n the same rank as\n the enemy for war. \nReshuffling'
             renderDuelHand()
         
         }else{
@@ -174,12 +170,22 @@ function splitDeck(deck){
             //console.log('battle P Card',battlePCard)
             duelWinner = 'player'
             updatePlayerDecks(duelWinner)
-            battleMsg.innerText = 'You win the duel!'
+
+            const p =  setInterval(() =>{
+                battleMsg.innerText = 'You win \nthe duel!'
+                clearInterval(p)
+               }, 300)
+            
         }else{
             console.log('Computer WINS!!')
             duelWinner = 'computer'
             updatePlayerDecks(duelWinner)
-            battleMsg.innerText = "We've lost the duel!"
+
+             const c =  setInterval(() =>{
+                battleMsg.innerText = "We've lost\n the duel!"
+                clearInterval(c)
+               }, 300)
+            
         }
         
     }
@@ -252,6 +258,7 @@ function splitDeck(deck){
     battlePlayerCard.innerHTML = pCardHtml
     battleComputerCard.innerHTML = cCardHtml
     
+    return
   }
 
  /********************* WAR Functions *************************/
@@ -259,7 +266,7 @@ function splitDeck(deck){
   function goingToWar(){
     war = true
     renderPage(war)
-    battleMsg.innerText = 'My Lord! We are going to WAR!'
+    battleMsg.innerText = 'My Lord!\n We are going\n to WAR!'
     console.log('GOING TO WAR!!!')
   }
 
@@ -277,13 +284,11 @@ function splitDeck(deck){
     if (war){
         renderDeckInContainer(playerDeck, computerDeck)
         renderWarDeck()
-        duelBtn.innerText = 'Go to WAR!'
-        battleMsg.innerText = 'My King! \nThe enemy has gathered an army! \nPrepare for WAR!'
-        body.style.backgroundColor = 'red'
+        duelBtn.innerText = 'Go to\n WAR!'
+        battleMsg.innerText = 'My King! \nThe enemy has \ngathered an army! \nPrepare for WAR!'
     }else{
         renderDeckInContainer(playerDeck, computerDeck)
         duelBtn.innerText = 'Duel!'
-        body.style.backgroundColor = 'white'
     }
   }
 
@@ -335,12 +340,12 @@ function splitDeck(deck){
     }else{
         if(pCards.length === 0){
             //computer won
-            battleMsg.innerText = "We've lost my lord. \nThe enemy will storm the castle soon!"
+            battleMsg.innerText = "We've lost my lord. \nThe enemy will storm\n the castle soon!"
             winnerValue = true
             duelBtn.innerText = "Play Again?"
         }else if(cCards.length === 0){
             //player won
-            battleMsg.innerText = "We've won my lord! \nThey were foolish to defy us!"
+            battleMsg.innerText = "We've won my lord! \nThey were foolish\n to defy us!"
             winnerValue = true
             duelBtn.innerText = "Play Again?"
         }
@@ -378,6 +383,7 @@ function splitDeck(deck){
   document.getElementById('duelBtn').addEventListener('click', (e) => {
     e.stopPropagation() //<-- used to stop button from being run when page loads
     duel()
+    CardAUDIO.play()
   })
   document.getElementById('surrenderBtn').addEventListener('click',(e) => {
     e.stopPropagation() //<-- used to stop button from being run when page loads

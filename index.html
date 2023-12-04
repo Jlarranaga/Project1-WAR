@@ -11,7 +11,6 @@
   <body id="body">
 
     <video playsinline autoplay muted loop poster="video/Medieval-Background.mp4" id="backgroundVideo">
-      <!-- <source src="video/Medieval-Background.webm" type="video/webm"> -->
       <source src="video/Medieval-Background.mp4" type="video/mp4">
     </video>
 
@@ -23,26 +22,17 @@
     </section>
 
     <section id="cards">
-      <div id="playerDeck">
-        <!-- <img src="images/Medieval-DeckHolder.png" alt="Deck Background" id="playerDeckBackground"> -->
-      </div>
-      <div id="battlePlayerCard"></div>
-      <div id="computerDeck"></div>
-      <div id="battleComputerCard"></div>
-      <div id="battleResult"><img src="/images/Battle Scroll.png" alt="Message Scroll"></div>
-      <!-- <div id="playerWarDeck"></div>
-      <div id="playerWarDeck"></div>
-      <div id="warCardsComputer"></div> -->
+      <div id="playerDeck" class="cardHolder"></div>
+      <div id="battlePlayerCard" class ="cardHolder"></div>
+      <div id="computerDeck" class="cardHolder"></div>
+      <div id="battleComputerCard" class="cardHolder"></div>
+      <div id="battleResult"></div>
     </section>
 
     <section id="buttons">
       <button id="duelBtn">Duel!</button>
       <button id="surrenderBtn">Surrender</button>
     </section>
-
-    <!-- <div id="videoDiv">
-     
-    </div> -->
 
   </body>
 </html>
