@@ -48,16 +48,16 @@ function introAudioPlay(){
 
 
 function totalCardCount(){ //<-- Keeps track of how many cards in each players deck
-    const interval =  setInterval(() =>{
-        
-        clearInterval(interval)
-    }, 300) //TODO Delay the card count score on the page. loads too fast. **********************************************
-
+   
     const playerCards = document.getElementById('playerCardCount')
     const compCards = document.getElementById('computerCardCount')
 
-    playerCards.innerText = `Your Cards: ${pCards.length}`
-    compCards.innerText = `Computer Cards: ${cCards.length}`
+    const interval =  setInterval(() =>{
+        playerCards.innerText = `Your Cards: ${pCards.length}`
+        compCards.innerText = `Computer Cards: ${cCards.length}`
+        clearInterval(interval)
+    }, 400) 
+   
 
     endOfWar()
     
@@ -414,6 +414,7 @@ function splitDeck(deck){
 
     if(duelBtn.innerText === 'Start' || duelBtn.innerText === "Play Again?"){
     introAudioPlay()
+    battleMsg.innerText = "Welcome\n to WAR!"
     const playTime = setTimeout(() =>{
         duel()
         clearTimeout(playTime)
