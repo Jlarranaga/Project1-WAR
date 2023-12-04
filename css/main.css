@@ -3,6 +3,11 @@
     src: url('/font/MedievalSharp-Regular.ttf');
 }
 
+@font-face {
+    font-family: nanum-brush-script;
+    src: url('/font/font2/NanumBrushScript-Regular.ttf');
+}
+
 *{
     box-sizing: border-box;
 }
@@ -21,12 +26,15 @@ video{
 
 #body {
     position: relative;
-    justify-content: center;
+    
     /* justify-items: center; */
     height: 100vh;
+    width: 100%;
     display: grid;
-    grid-template-columns: 20vmin 20vmin 20vmin 20vmin 20vmin;
+    grid-template-columns: 30vmin 30vmin 30vmin 30vmin 30vmin;
     grid-template-rows: 15vmin 15vmin 40vmin 40vmin;
+    justify-content: center;
+    align-items: center;
 }
 
 header{
@@ -47,18 +55,20 @@ header{
 #scores {
     grid-row: 2/3;
     display: grid;
-    grid-template-columns: repeat(5, 20vmin);
+    grid-template-columns: repeat(5, 30vmin);
     font-family: medievalsharp-regular;
     font-size: 2.6vw;
    
 }
 
 #playerCardCount{
-    text-shadow: 0 0 5px #0400ff, 0 0 5px #ffffff;
+    text-shadow: 0 0 10px #000000, 0 0 10px #000000;
+    color: white;
 }
 
 #computerCardCount{
     text-shadow: 0 0 5px #f80000, 0 0 5px #0004ff;
+    color: white;
 }
 
 #computerCardCount{
@@ -70,7 +80,7 @@ header{
 #cards{
     grid-row: 3/4;
     display: grid;
-    grid-template-columns: repeat(5, 20vmin);
+    grid-template-columns: repeat(5, 30vmin);
     grid-template-rows: 40vmin;
 }
 
@@ -78,35 +88,29 @@ header{
     grid-row: 1/2;
     border: 5px solid black;
     margin: 10px;
-    display: grid;
-    grid-template-columns: 20vmin;
+    display: flex;
+    grid-template-columns: 30vmin;
     grid-template-rows: 40vmin;
     object-fit: cover;
-    
+    align-items: center;
+    justify-content: center;
     /*TODO figure how to change apperance based on going to war. 
     /*TODO apperance needs to be 3 random cards instead of deck*/
 }
 
-#playerDeckBackground{
+
+#playerDeck img{
     grid-row: 1/2; 
     grid-column: 1/2;
     position: absolute;
     width: 100%;
     height: 100%;
     object-fit: contain;
-
-    
-    /* display: inline-block;  */
-    /* height: 100vh; */
-    /* width: 100vw; */
-    /* z-index: 0; */
-    /* visibility: visible; */
 }
 
 #battlePlayerCard{
     grid-column: 2/3;
     border: 5px solid black;
-    border-radius: 15%;
     margin: 10px;
 }
 
@@ -114,25 +118,39 @@ header{
     grid-column: 4/5;
     grid-row: 1/2;
     border: 5px solid black;
-    border-radius: 15%;
     margin: 10px;
 }
 
 #computerDeck{ /*TODO Will change apperance to 3 cards for war */
     grid-column: 5/6;
     border: 5px solid black;
-    border-radius: 15%;
     margin: 10px;
     /*TODO figure how to change apperance based on going to war. 
     /*TODO apperance needs to be 3 random cards instead of deck*/
 }
 
 #battleResult{
+    display: flex;
     grid-column: 3/4;
     grid-row: 1/2;
     border: 5px solid red;
-    border-radius: 15%;
     margin: 10px;
+    font-family: nanum-brush-script;
+    font-size: 2vw;
+    font-weight: bold;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#battleResult img{
+    grid-row: 1/2; 
+    grid-column: 1/2;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
 }
 
 /***** Button Section *****/
@@ -140,7 +158,7 @@ header{
 #buttons{
     grid-row: 4/5;
     display: grid;
-    grid-template-columns: 20vmin 20vmin 20vmin 20vmin 20vmin;
+    grid-template-columns: 30vmin 30vmin 30vmin 30vmin 30vmin;
     grid-template-rows: 20vmin 20vmin ;
 }
 
@@ -149,9 +167,14 @@ header{
     margin: 20px;
     margin-top: 40px;
     margin-bottom: 40px;
-    border-radius: 10%;
-    /*TODO change button text when at war. Prob. DOM manipulation */
+    border: none;
+    background: url('/images/duel\ image.png');
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+    
 }
+
 
 #surrenderBtn{
     grid-column: 5/6;
