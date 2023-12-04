@@ -7,6 +7,7 @@ const cCards = []; //<-- Comp card deck
 const pWarCards = []; //<-- War cards will hold 3 from player deck
 const cWarCards = []; //<-- Comp cards will hold 3 from comp deck
 const CardAUDIO = new Audio('/audio/CardFlip.mp3');
+const introAudio = new Audio('/audio/Medieval-Intro-Audio.mp3');
 
 /*----------- Variables --------------*/
 let shuffledDeck
@@ -30,6 +31,7 @@ const video = document.getElementById('backgroundVideo')
 
 
 function renderGame(){
+    
     duelBtn.innerText = 'Start'
     battleMsg.innerText = 'Click Start\n to begin!'
     body.style.background = video
@@ -40,8 +42,17 @@ function renderGame(){
     
 }
 
+function introAudioPlay(){
+    introAudio.play()
+}
+
 
 function totalCardCount(){ //<-- Keeps track of how many cards in each players deck
+    const interval =  setInterval(() =>{
+        
+        clearInterval(interval)
+    }, 300) //TODO Delay the card count score on the page. loads too fast. **********************************************
+
     const playerCards = document.getElementById('playerCardCount')
     const compCards = document.getElementById('computerCardCount')
 
@@ -129,7 +140,7 @@ function splitDeck(deck){
 
 
   function duel(){
-    
+
    if(winnerValue === true){
     resetGame()
     renderGame()
@@ -393,13 +404,25 @@ function splitDeck(deck){
 
 
   /*------------ Event Listeners ------------*/
+  
   renderGame();
   //TODO opening button  will say, Ready to play? then disappear and 
   //TODO duel button will appear. call render new shuffled deck function. 
   
   document.getElementById('duelBtn').addEventListener('click', (e) => {
     e.stopPropagation() //<-- used to stop button from being run when page loads
-    duel()
+
+    if(duelBtn.innerText === 'Start' || duelBtn.innerText === "Play Again?"){
+    introAudioPlay()
+    const playTime = setTimeout(() =>{
+        duel()
+        clearTimeout(playTime)
+    },5500)
+
+    }else{
+        duel()
+    }
+    
   })
   document.getElementById('surrenderBtn').addEventListener('click',(e) => {
     e.stopPropagation() //<-- used to stop button from being run when page loads
