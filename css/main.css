@@ -93,17 +93,23 @@ header{
     position: absolute;
 }
 
-.card .wrapper{
+/* .card .wrapper{
     height: 30vh;
     width: 12vw;
     z-index: 1;
-}
+} */
 
 #cards{
     grid-row: 3/4;
     display: grid;
     grid-template-columns: repeat(5, 30vmin);
     grid-template-rows: 40vmin;
+}
+
+#cards > div{
+    background-image: url('/images/Medieval-DeckHolder.png');
+   background-size: contain ;
+   background-repeat: no-repeat;
 }
 
 #playerDeck{ /*TODO Will change apperance to 3 cards for war */

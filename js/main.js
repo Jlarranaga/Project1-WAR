@@ -21,7 +21,7 @@ let cardDeck = buildDeck()
 /*----------- Cached DOM Elements -----------*/
 const duelBtn = document.getElementById('duelBtn')
 const battleMsg = document.getElementById('battleResult')
-const playerDeck = document.getElementById('playerDeckBackground')
+const playerDeck = document.getElementById('playerDeck')
 const computerDeck = document.getElementById('computerDeck')
 const body = document.getElementById('body')
 const video = document.getElementById('backgroundVideo')
