@@ -9,8 +9,6 @@ const cWarCards = []; //<-- Comp cards will hold 3 from comp deck
 
 
 /*----------- Variables --------------*/
-let pTotalWins //<-- holds how many rounds player or comp wins. 
-let cTotalWins
 let shuffledDeck
 let battlePCard 
 let battleCCard
@@ -97,7 +95,7 @@ function renderDeckInContainer(playerDeck, computerDeck) {
     if(war){ 
 
         for(i=0; i<=2; i++){
-            cardsHtml += `<div class="card back-red"></div>`
+            cardsHtml += `<div class="card-back-red"></div>`
         }
         //cardsHtml = `<div class="card back-red"></div>`
         //cardsHtml2 = `<div class="card back-red"></div>`
@@ -114,7 +112,7 @@ function renderDeckInContainer(playerDeck, computerDeck) {
     }else{
 
         cardsHtml = `<div class="card back-red"></div>`
-          
+          //TODO HELP*************************** Card wont show on top of paper
         playerDeck.innerHTML = cardsHtml
         computerDeck.innerHTML = cardsHtml
     }
