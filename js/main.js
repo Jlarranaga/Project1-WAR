@@ -25,7 +25,9 @@ const battleMsg = document.getElementById('battleResult')
 const playerDeck = document.getElementById('playerDeck')
 const computerDeck = document.getElementById('computerDeck')
 const body = document.getElementById('body')
-const video = document.getElementById('backgroundVideo')
+const videoBack = document.getElementById('backgroundVideo')
+const intro = document.getElementById('introVideo')
+const introBtn = document.getElementById('intro')
 
 /*--------- Functions -----------*/
 
@@ -34,11 +36,12 @@ function renderGame(){
     
     duelBtn.innerText = 'Start'
     battleMsg.innerText = 'Click Start\n to begin!'
-    body.style.background = video
+    body.style.background = videoBack
     renderNewShuffledDeck();
     splitDeck(shuffledDeck)
     renderDeckInContainer(playerDeck, computerDeck);
     totalCardCount()
+    introBtn.style.visibility = 'hidden'
     
 }
 
@@ -46,6 +49,38 @@ function introAudioPlay(){
     introAudio.play()
 }
 
+function loadingScreen(){
+    intro.classList.add('load')
+    //body.style.backgroundColor = 'black'
+   // body.style.zIndex = 3
+    //body.style.position ='absolute'
+}
+
+function introVideo(){
+
+    intro.classList.add('intro')
+    body.style.background = intro
+    intro.play()
+    introBtn.style.visibility = 'hidden'
+    //  intro.forEach((v) =>{
+        const t = setTimeout(() =>{
+            intro.classList.add('fade')
+            //intro.style.visibility = 'hidden'
+            clearTimeout(t)
+        }, 6500)
+    //  })
+
+    const o = setTimeout(() =>{
+        intro.classList.remove('load')
+        intro.classList.remove('fade')
+        intro.classList.remove('intro')
+        intro.classList.add('remove')
+        
+        renderGame()
+        clearTimeout(o)
+    }, 7500)
+   
+}
 
 function totalCardCount(){ //<-- Keeps track of how many cards in each players deck
    
@@ -106,15 +141,16 @@ function renderDeckInContainer(playerDeck, computerDeck) {
     if(war){ 
 
         for(i=0; i<=2; i++){
-            cardsHtml += `<div class="card back-red" id="warDeck"></div>`
+            cardsHtml += `<div class="card back-red"></div>`
         }
-        
+       // cardsHtml = `<div id="warDeck"><img src="/images/warDeckImage.png" alt="deck"></div>`
+
         playerDeck.innerHTML = cardsHtml
         computerDeck.innerHTML = cardsHtml
 
     }else{
 
-        cardsHtml = `<div class="card back-red"></div>`
+        cardsHtml = `<span class="card back-red"></span>`
           
         playerDeck.innerHTML = cardsHtml
         computerDeck.innerHTML = cardsHtml
@@ -184,20 +220,36 @@ function splitDeck(deck){
             duelWinner = 'player'
             updatePlayerDecks(duelWinner)
             
+            if(war){
+                const interval =  setInterval(() =>{
+                    battleMsg.innerText = 'You win \nthe WAR!'
+                    clearInterval(interval)
+                }, 500)
+            }else{
             const interval =  setInterval(() =>{
                 battleMsg.innerText = 'You win \nthe duel!'
                 clearInterval(interval)
             }, 500)
+        }
            
         }else{
             console.log('Computer WINS!!')
             duelWinner = 'computer'
             updatePlayerDecks(duelWinner)
 
-            const interval =  setInterval(() =>{
-                battleMsg.innerText = "We've lost\n the duel!"
-                clearInterval(interval)
-            }, 500)
+
+            if(war){ //TODO not working ******
+                const interval =  setInterval(() =>{
+                    battleMsg.innerText = 'We lost \nthe WAR!'
+                    clearInterval(interval)
+                }, 500)
+            }else{
+                const interval =  setInterval(() =>{
+                    battleMsg.innerText = "We've lost\n the duel!"
+                    clearInterval(interval)
+                }, 500)
+        }
+           
         }
         
     }
@@ -290,7 +342,7 @@ function splitDeck(deck){
     renderPage(war)
 
     const interval =  setInterval(() =>{
-        battleMsg.innerText = 'My Lord!\n We are going\n to WAR!'
+        battleMsg.innerText = 'My Lord!\n We are\n going\n to WAR!'
         clearInterval(interval)
     }, 500)
     
@@ -365,9 +417,9 @@ function splitDeck(deck){
   function winner(surrender){
     if(surrender){
         //player surrrendered and computer wins by default
-        battleMsg.innerText = "We've surrendered..."
+        battleMsg.innerText = "We've\n surrendered"
         winnerValue = true
-        duelBtn.innerText = "Play Again?"
+        duelBtn.innerText = "Play\n Again?"
     }else{
         if(pCards.length === 0){
             //computer won
@@ -408,7 +460,8 @@ function splitDeck(deck){
 
   /*------------ Event Listeners ------------*/
   
-  renderGame();
+  //renderGame();
+  loadingScreen()
   
   document.getElementById('duelBtn').addEventListener('click', (e) => {
     e.stopPropagation() //<-- used to stop button from being run when page loads
@@ -426,8 +479,14 @@ function splitDeck(deck){
     }
     
   })
+
   document.getElementById('surrenderBtn').addEventListener('click',(e) => {
     e.stopPropagation() //<-- used to stop button from being run when page loads
     winner(true)
+  })
+
+  document.getElementById('intro').addEventListener('click',(e) => {
+    e.stopPropagation()
+    introVideo()
   })
  

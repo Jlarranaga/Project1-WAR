@@ -13,8 +13,36 @@
     box-sizing: border-box;
 }
 
+/*************** Intro ***********************/
+
+#introVideo.intro{
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2; /*<-- this is what makes the video go to the background */
+}
+
+#introVideo.load{
+    background-color: black;
+}
+
+#introVideo.fade{
+    opacity: 0;
+    transition: ease-in-out 0.5s;
+}
+
+#introVideo.remove{
+    background: none;
+    z-index: -2;
+}
+
 /********* Background ************/
-video{
+#backgroundVideo{
     object-fit: cover;
     width: 100vw;
     height: 100vh;
@@ -32,7 +60,7 @@ video{
     
     /* justify-items: center; */
     height: 100vh;
-    /* width: 100vw; */
+    /* width: 100vh; */
     display: grid;
     grid-template-columns: 20vmin 20vmin 20vmin 20vmin 20vmin;
     grid-template-rows: 15vmin 15vmin 30vmin 40vmin;
@@ -80,18 +108,24 @@ header{
 
 /***** Cards Section *****/
 
-.card.back-red{
+span.card.back-red{
     height: 20vh;
     width: 14vh;
     z-index: 1;
     position: absolute;
 }
 
-.warDeck{
-    height: 15vh;
-    width: 5vh;
+span{
+    display: flex;
+    justify-content: flex-start;
+}
+
+div.card.back-red{
+    height: 8vh;
+    width: 6vh;
     z-index: 1;
     position: absolute;
+    align-self:flex-start;
 }
 
 #cards{
@@ -139,8 +173,8 @@ header{
     display: flex;
     grid-column: 5/6;
    
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
     /*TODO figure how to change apperance based on going to war. 
     /*TODO apperance needs to be 3 random cards instead of deck*/
 }
@@ -163,6 +197,7 @@ header{
     text-align: center;
     
 }
+
 
 /* #battleResult img{
     grid-row: 1/2; 
@@ -211,6 +246,26 @@ header{
     transition: transform 150ms ease-in;
 }
 
+#intro{
+    transition: transform 150ms ease-in;
+    grid-column: 3/4;
+    z-index: 2;
+    /* background: url('/images/begin.png'); */
+    /* background-size: contain; */
+    background-color: #000000;
+    /* height: 30vh; */
+    border: none;
+    background-repeat: no-repeat;
+    font-family: medievalsharp-regular;
+    font-size: 10vh;
+    text-shadow: 0 0 5px #ff0202, 0 0 10px #f80202;
+    margin-bottom: 10vh;
+}
+
+#intro:hover{
+    transform: scale(1.1);
+    transition: transform 150ms ease-in;
+}
 
 #surrenderBtn{
     transition: transform 150ms ease-in;
