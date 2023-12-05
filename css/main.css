@@ -239,6 +239,8 @@ div.card.back-red{
     text-align: center;
     padding-top: 5vh;
     /* display: inline-block; */
+    z-index: 0;
+    /* position: relative; */
 }
 
 #duelBtn:hover{
@@ -246,9 +248,10 @@ div.card.back-red{
     transition: transform 150ms ease-in;
 }
 
-#intro{
+#intro{ /*TODO get this button on top of duel button */
+    position: absolute;
     transition: transform 150ms ease-in;
-    grid-column: 3/4;
+    grid-column: 2/3;
     z-index: 2;
     /* background: url('/images/begin.png'); */
     /* background-size: contain; */

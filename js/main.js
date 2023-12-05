@@ -8,6 +8,7 @@ const pWarCards = []; //<-- War cards will hold 3 from player deck
 const cWarCards = []; //<-- Comp cards will hold 3 from comp deck
 const CardAUDIO = new Audio('/audio/CardFlip.mp3');
 const introAudio = new Audio('/audio/Medieval-Intro-Audio.mp3');
+const loadingScreenAudio = new Audio('/audio/LoadingScreen.mp3');
 
 /*----------- Variables --------------*/
 let shuffledDeck
@@ -49,7 +50,7 @@ function introAudioPlay(){
     introAudio.play()
 }
 
-function loadingScreen(){
+function loadingScreen(){ //TODO Fade out loading screen 
     intro.classList.add('load')
     //body.style.backgroundColor = 'black'
    // body.style.zIndex = 3
@@ -58,6 +59,7 @@ function loadingScreen(){
 
 function introVideo(){
 
+    loadingScreenAudio.play()
     intro.classList.add('intro')
     body.style.background = intro
     intro.play()
@@ -480,6 +482,9 @@ function splitDeck(deck){
     
   })
 
+  //TODO add surrender audio
+  //TODO when you click surrender duel button text still says 
+  //TODO ...'duel!' when it should say start. 
   document.getElementById('surrenderBtn').addEventListener('click',(e) => {
     e.stopPropagation() //<-- used to stop button from being run when page loads
     winner(true)
