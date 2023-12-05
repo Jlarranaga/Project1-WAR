@@ -56,7 +56,7 @@ function totalCardCount(){ //<-- Keeps track of how many cards in each players d
         playerCards.innerText = `Your Cards: ${pCards.length}`
         compCards.innerText = `Computer Cards: ${cCards.length}`
         clearInterval(interval)
-    }, 400) 
+    }, 500) 
    
 
     endOfWar()
@@ -168,7 +168,7 @@ function splitDeck(deck){
             const interval =  setInterval(() =>{
                 battleMsg.innerText = 'We cannot have\n the same rank as\n the enemy for war. \nReshuffling'
                 clearInterval(interval)
-            }, 300)
+            }, 500)
             
             renderDuelHand()
         
@@ -187,7 +187,7 @@ function splitDeck(deck){
             const interval =  setInterval(() =>{
                 battleMsg.innerText = 'You win \nthe duel!'
                 clearInterval(interval)
-            }, 300)
+            }, 500)
            
         }else{
             console.log('Computer WINS!!')
@@ -197,7 +197,7 @@ function splitDeck(deck){
             const interval =  setInterval(() =>{
                 battleMsg.innerText = "We've lost\n the duel!"
                 clearInterval(interval)
-            }, 300)
+            }, 500)
         }
         
     }
@@ -267,11 +267,15 @@ function splitDeck(deck){
     pCardHtml = `<div class="card ${battlePCard}"></div>`
     cCardHtml = `<div class="card ${battleCCard}"></div>`
 
-    const interval =  setInterval(() =>{
-
-    battlePlayerCard.innerHTML = pCardHtml
-    battleComputerCard.innerHTML = cCardHtml
     
+    const i =  setInterval(() =>{
+        
+        battlePlayerCard.innerHTML = pCardHtml
+        battleComputerCard.innerHTML = cCardHtml
+        clearInterval(i)
+    }, 500)
+   
+    const interval =  setInterval(() =>{
     CardAUDIO.play()
 
     clearInterval(interval)
@@ -281,14 +285,14 @@ function splitDeck(deck){
 
  /********************* WAR Functions *************************/
 
-  function goingToWar(){
+  function goingToWar(){ //TODO ADD WAR sound when you go to war. ***********************************************
     war = true
     renderPage(war)
 
     const interval =  setInterval(() =>{
         battleMsg.innerText = 'My Lord!\n We are going\n to WAR!'
         clearInterval(interval)
-    }, 300)
+    }, 500)
     
     console.log('GOING TO WAR!!!')
   }
@@ -312,7 +316,7 @@ function splitDeck(deck){
             duelBtn.innerText = 'Go to\n WAR!'
             battleMsg.innerText = 'My King! \nThe enemy has \ngathered an army! \nPrepare for WAR!'
             clearInterval(interval)
-        }, 300)
+        }, 500)
         
     }else{
         renderDeckInContainer(playerDeck, computerDeck)
@@ -360,8 +364,7 @@ function splitDeck(deck){
 
   function winner(surrender){
     if(surrender){
-        //player surrrendered and computer wins by defauly
-        //but show who was winning in the moment. 
+        //player surrrendered and computer wins by default
         battleMsg.innerText = "We've surrendered..."
         winnerValue = true
         duelBtn.innerText = "Play Again?"
@@ -406,8 +409,6 @@ function splitDeck(deck){
   /*------------ Event Listeners ------------*/
   
   renderGame();
-  //TODO opening button  will say, Ready to play? then disappear and 
-  //TODO duel button will appear. call render new shuffled deck function. 
   
   document.getElementById('duelBtn').addEventListener('click', (e) => {
     e.stopPropagation() //<-- used to stop button from being run when page loads
