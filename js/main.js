@@ -32,6 +32,30 @@ const introBtn = document.getElementById('intro')
 
 /*--------- Functions -----------*/
 
+function introVideo(){ //Called from intro button
+
+    loadingScreenAudio.play()
+    intro.classList.add('intro')
+    body.style.background = intro
+    intro.play()
+    introBtn.style.visibility = 'hidden'
+   
+        const t = setTimeout(() =>{
+            intro.classList.add('fade')
+            clearTimeout(t)
+        }, 6500)
+   
+    const o = setTimeout(() =>{
+        intro.classList.remove('load')
+        intro.classList.remove('fade')
+        intro.classList.remove('intro')
+        intro.classList.add('remove')
+        
+        renderGame()
+        clearTimeout(o)
+    }, 7500)
+   
+}
 
 function renderGame(){
     
@@ -50,39 +74,10 @@ function introAudioPlay(){
     introAudio.play()
 }
 
-function loadingScreen(){ //TODO Fade out loading screen 
+function loadingScreen(){ //<-- First function called when page loads
     intro.classList.add('load')
-    //body.style.backgroundColor = 'black'
-   // body.style.zIndex = 3
-    //body.style.position ='absolute'
 }
 
-function introVideo(){
-
-    loadingScreenAudio.play()
-    intro.classList.add('intro')
-    body.style.background = intro
-    intro.play()
-    introBtn.style.visibility = 'hidden'
-    //  intro.forEach((v) =>{
-        const t = setTimeout(() =>{
-            intro.classList.add('fade')
-            //intro.style.visibility = 'hidden'
-            clearTimeout(t)
-        }, 6500)
-    //  })
-
-    const o = setTimeout(() =>{
-        intro.classList.remove('load')
-        intro.classList.remove('fade')
-        intro.classList.remove('intro')
-        intro.classList.add('remove')
-        
-        renderGame()
-        clearTimeout(o)
-    }, 7500)
-   
-}
 
 function totalCardCount(){ //<-- Keeps track of how many cards in each players deck
    
@@ -461,16 +456,14 @@ function splitDeck(deck){
 
 
   /*------------ Event Listeners ------------*/
-  
-  //renderGame();
   loadingScreen()
   
-  document.getElementById('duelBtn').addEventListener('click', (e) => {
+  document.getElementById('duelBtn').addEventListener('click', (e) => { //Duel button used to start game, play game, restart game
     e.stopPropagation() //<-- used to stop button from being run when page loads
 
     if(duelBtn.innerText === 'Start' || duelBtn.innerText === "Play Again?"){
     introAudioPlay()
-    battleMsg.innerText = "Welcome\n to WAR!"
+    battleMsg.innerText = "Welcome\n your\n Majesty!" 
     const playTime = setTimeout(() =>{
         duel()
         clearTimeout(playTime)
@@ -485,13 +478,14 @@ function splitDeck(deck){
   //TODO add surrender audio
   //TODO when you click surrender duel button text still says 
   //TODO ...'duel!' when it should say start. 
-  document.getElementById('surrenderBtn').addEventListener('click',(e) => {
+  document.getElementById('surrenderBtn').addEventListener('click',(e) => { //Surrender button, used to give up
     e.stopPropagation() //<-- used to stop button from being run when page loads
     winner(true)
   })
 
-  document.getElementById('intro').addEventListener('click',(e) => {
-    e.stopPropagation()
+  //Start button, used only at loading screen. Disappears once clciked and wont show again until page reloads
+  document.getElementById('intro').addEventListener('click',(e) => { 
+    e.stopPropagation() //<-- used to stop button from being run when page loads
     introVideo()
   })
  
