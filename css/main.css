@@ -43,7 +43,7 @@
     z-index: -2;
 }
 
-/********* Background ************/
+/*********** Background ************/
 #backgroundVideo{
     object-fit: cover;
     width: 100vw;
@@ -56,13 +56,10 @@
     z-index: -1; 
 }
 
-/********* Body Parent Element ************/
+/************ Body Parent Element ************/
 #body {
     position: relative;
-    
-    /* justify-items: center; */
     height: 100vh;
-    /* width: 100vh; */
     display: grid;
     grid-template-columns: 20vmin 20vmin 20vmin 20vmin 20vmin;
     grid-template-rows: 15vmin 15vmin 30vmin 40vmin;
@@ -85,7 +82,7 @@ header{
     
 }
 
-/***** Scores Section *****/
+/************** Scores Section ***************/
 
 #scores {
     grid-row: 2/3;
@@ -108,7 +105,7 @@ header{
 }
 
 
-/***** Cards Section *****/
+/************* Cards Section **************/
 
 span.card.back-red{
     height: 20vh;
@@ -136,7 +133,6 @@ span.card.back-red{
     grid-template-columns: repeat(5, 20vmin);
     grid-template-rows: 30vmin;
     align-content: center;
-   
 }
 
 #cards > .cardHolder{
@@ -148,7 +144,7 @@ span.card.back-red{
    align-items: center;
 }
 
-#playerDeck{ /*TODO Will change apperance to 3 cards for war */
+#playerDeck{ 
     grid-row: 1/2;
     display: grid;
     grid-template-columns: 20vmin;
@@ -156,29 +152,20 @@ span.card.back-red{
     /* object-fit: cover; */
     align-items: center;
     justify-content: center;
-    /*TODO figure how to change apperance based on going to war. 
-    /*TODO apperance needs to be 3 random cards instead of deck*/
 }
 
 #battlePlayerCard{
     grid-column: 2/3;
-
 }
 
 #battleComputerCard{
     grid-column: 4/5;
     grid-row: 1/2;
-
 }
 
-#computerDeck{ /*TODO Will change apperance to 3 cards for war */
+#computerDeck{ 
     display: flex;
     grid-column: 5/6;
-   
-    /* justify-content: center;
-    align-items: center; */
-    /*TODO figure how to change apperance based on going to war. 
-    /*TODO apperance needs to be 3 random cards instead of deck*/
 }
 
 #battleResult{
@@ -201,17 +188,7 @@ span.card.back-red{
 }
 
 
-/* #battleResult img{
-    grid-row: 1/2; 
-    grid-column: 1/2;
-    position: absolute;
-    width: 100vh;
-    height: 100vh;
-    object-fit: contain;
-
-} */
-
-/***** Button Section *****/
+/*************** Button Section *****************/
 
 #buttons{
     grid-row: 4/5;
@@ -290,4 +267,15 @@ span.card.back-red{
 #surrenderBtn:hover{
     transform: scale(1.1);
     transition: transform 150ms ease-in;
+}
+
+#rules{
+    grid-column: 4/6;
+    grid-row: 1/2;
+    font-family: medievalsharp-regular;
+    font-size: 1.6vh;
+    text-align: left;
+   padding-left: 5vh;
+    text-shadow: 0 0 5px #ff0202, 0 0 10px #f80202;
+    color: white;
 }
