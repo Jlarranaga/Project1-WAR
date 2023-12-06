@@ -26,7 +26,7 @@
     left: 0;
     bottom: 0;
     right: 0;
-    z-index: 2; /*<-- this is what makes the video go to the background */
+    z-index: 2; 
 }
 
 #introVideo.load{
@@ -53,7 +53,7 @@
     left: 0;
     bottom: 0;
     right: 0;
-    z-index: -1; /*<-- this is what makes the video go to the background */
+    z-index: -1; 
 }
 
 /********* Body Parent Element ************/
@@ -92,7 +92,7 @@ header{
     display: grid;
     grid-template-columns: repeat(5, 20vmin);
     font-family: medievalsharp-regular;
-    font-size: 2.6vw;
+    font-size: 4vh;
    
 }
 
@@ -117,17 +117,17 @@ span.card.back-red{
     position: absolute;
 }
 
-span{
-    display: flex;
-    justify-content: flex-start;
-}
-
-div.card.back-red{
-    height: 8vh;
-    width: 6vh;
-    z-index: 1;
-    position: absolute;
-    align-self:flex-start;
+.war{
+    background-image: url('/images/warDeckImage.png');
+    background-position: center center;
+    height: 20vh;
+    width: 15vh;
+    margin-bottom: 3vh;
+    margin-left: 1vh;
+    background-size:contain ;
+    background-repeat: no-repeat;
+    justify-content: center;
+    align-items: center; 
 }
 
 #cards{

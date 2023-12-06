@@ -32,6 +32,10 @@ const introBtn = document.getElementById('intro')
 
 /*--------- Functions -----------*/
 
+function loadingScreen(){ //<-- First function called when page loads
+    intro.classList.add('load')
+}
+
 function introVideo(){ //Called from intro button
 
     loadingScreenAudio.play()
@@ -74,10 +78,6 @@ function introAudioPlay(){
     introAudio.play()
 }
 
-function loadingScreen(){ //<-- First function called when page loads
-    intro.classList.add('load')
-}
-
 
 function totalCardCount(){ //<-- Keeps track of how many cards in each players deck
    
@@ -107,7 +107,7 @@ function buildDeck() { //<-- brought in from card class (Resources)
         });
       });
     });
-    // console.log(card.face)
+    
     return deck;
   }
   
@@ -136,11 +136,7 @@ function renderDeckInContainer(playerDeck, computerDeck) {
     
 
     if(war){ 
-
-        for(i=0; i<=2; i++){
-            cardsHtml += `<div class="card back-red"></div>`
-        }
-       // cardsHtml = `<div id="warDeck"><img src="/images/warDeckImage.png" alt="deck"></div>`
+        cardsHtml = `<div class="war"></div>`
 
         playerDeck.innerHTML = cardsHtml
         computerDeck.innerHTML = cardsHtml
@@ -156,7 +152,7 @@ function renderDeckInContainer(playerDeck, computerDeck) {
 
 
 function splitDeck(deck){
-    console.log('Original Deck: ', deck)
+   
     deck.forEach(function(card) {
         if(pCards.length <= 25) //<-- splitting card deck
         {
@@ -167,8 +163,7 @@ function splitDeck(deck){
         }
         
     }); 
-    console.log('pCards Deck: ', pCards)
-    console.log('cCards Deck: ', cCards)
+    
 }
 
 
@@ -212,8 +207,6 @@ function splitDeck(deck){
     }else{ //Determines who wins the duel
         
         if(pRankIndex > cRankIndex){
-            console.log('Player WINS!!')
-            //console.log('battle P Card',battlePCard)
             duelWinner = 'player'
             updatePlayerDecks(duelWinner)
             
@@ -230,7 +223,6 @@ function splitDeck(deck){
         }
            
         }else{
-            console.log('Computer WINS!!')
             duelWinner = 'computer'
             updatePlayerDecks(duelWinner)
 
@@ -263,8 +255,6 @@ function splitDeck(deck){
             pCards.push(cCards[opponentCard])
             cCards.splice(opponentCard,1)
         }else{
-            console.log('Battle P Card: ', battlePCard)
-            console.log('P Card arr: ', pCards)
             const opponentCard = pCards.findIndex((card) => card.face === battlePCard)
             cCards.push(pCards[opponentCard])
             pCards.splice(opponentCard,1)
@@ -301,14 +291,8 @@ function splitDeck(deck){
     const randPlayerIdx = Math.floor(Math.random() * pCards.length); //may need to +1 for 26 cards
     const randCompIdx = Math.floor(Math.random() * cCards.length);
 
-    console.log('renderDualHand pCards: ', pCards)
-    console.log('renderDualHand cCards: ', cCards)
-
     const pCard = pCards[randPlayerIdx]
     const cCard = cCards[randCompIdx]
-
-    console.log('renderDuelHand pCard: ', pCard)
-    console.log('renderDuelHand cCard: ', cCard)
 
     battlePCard = pCard.face
     battleCCard = cCard.face
@@ -342,8 +326,6 @@ function splitDeck(deck){
         battleMsg.innerText = 'My Lord!\n We are\n going\n to WAR!'
         clearInterval(interval)
     }, 500)
-    
-    console.log('GOING TO WAR!!!')
   }
 
 
