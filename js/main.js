@@ -72,6 +72,7 @@ function renderGame() {
   renderDeckInContainer(playerDeck, computerDeck);
   totalCardCount();
   introBtn.style.visibility = "hidden";
+ 
 }
 
 function introAudioPlay() {
@@ -142,7 +143,7 @@ function renderDeckInContainer(playerDeck, computerDeck) {
 function splitDeck(deck) {//<-- splitting card deck
 
   deck.forEach(function (card) {
-    if (pCards.length <= 25) {
+    if (pCards.length <= 50) {
       pCards.push(card);
     } else {
       cCards.push(card);
@@ -226,8 +227,12 @@ function duel() {//Duel handle function for button.
     }
   }
 
-  winner(false); //calling winner function with the surrender button value being false
-  //Surrender button was not clicked - false
+  const i = setInterval(() => {
+    winner(); //calling winner function with the surrender button value being false
+    //Surrender button was not clicked - false
+    clearInterval(i);
+  }, 1000);
+  
 }
 
 function updatePlayerDecks(duelWinner) {//Updates each players card deck array after every duel and war
@@ -323,7 +328,7 @@ function renderPage(war) {
       renderDeckInContainer(playerDeck, computerDeck);
       renderWarDeck();
       clearInterval(i);
-    }, 2000);
+    }, 1000);
 
     const interval = setInterval(() => {
       duelBtn.innerText = "Go to\n WAR!";
@@ -385,14 +390,14 @@ function winner(surrender) {
       battleMsg.innerText =
         "We've lost my lord. \nThe enemy will storm\n the castle soon!";
       winnerValue = true;
-      duelBtn.innerText = "Play Again?";
+      duelBtn.innerText = "Play\n Again?";
 
     } else if (cCards.length === 0) {
       //player won
       battleMsg.innerText =
         "We've won my lord! \nThey were foolish\n to defy us!";
       winnerValue = true;
-      duelBtn.innerText = "Play Again?";
+      duelBtn.innerText = "Play\n Again?";
     }
   }
 }
