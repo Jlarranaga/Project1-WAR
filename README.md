@@ -19,9 +19,9 @@ As a user, I want the ability to:
 HTML, JavaScript, CSS
 
 # **Future Versions**
-*Future versions will include added animation for war scenarios 
-*More immersive gameplay 
-*Possible 3rd player added. 
+* Future versions will include added animation for war scenarios 
+* More immersive gameplay 
+* Possible 3rd player added. 
 
 # WIRE FRAME (Screenshot)
 ![Alt text](<Screenshot (1)-1.png>)
