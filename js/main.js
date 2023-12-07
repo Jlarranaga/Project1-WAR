@@ -346,6 +346,7 @@ function renderWarDeck() {
   for (i = 0; i <= 1; i++) {
     if (pCards[i] === undefined || cCards[i] === undefined) {
       //Do nothing, since there are no more cards in deck to access.
+      return
     } else {
       pWarCards.push(pCards[i]);
       pCards.splice(i, 1);
