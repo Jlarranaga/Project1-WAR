@@ -181,7 +181,7 @@ function duel() {//Duel handle function for button.
     if (war) {
       const interval = setInterval(() => {
         battleMsg.innerText =
-          "We cannot have\n the same rank as\n the enemy for war. \nReshuffling";
+          "WAR:\nSame Rank!\nReshuffling";
         clearInterval(interval);
       }, 500);
 
