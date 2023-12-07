@@ -1,6 +1,6 @@
 # Project1-WAR
 
-**WAR**
+# Foobar **WAR**
 
 **OVERVIEW**
 This is the card game War. 2 players split a card deck and each put 1 card down. Whichever player has the higher rank wins and gets both cards. If both players put down an equal rank card they go to war. They each put down 3 cards and then the 4th card duels. The winner takes all 4 cards from their opponent. You win by taking all opponents cards or opponent surrenders. 
