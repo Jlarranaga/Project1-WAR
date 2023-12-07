@@ -149,6 +149,7 @@ function splitDeck(deck) {//<-- splitting card deck
       cCards.push(card);
     }
   });
+
 }
 
 function duel() {//Duel handle function for button.
@@ -344,14 +345,18 @@ function renderPage(war) {
 
 function renderWarDeck() {
   for (i = 0; i <= 1; i++) {
-    if (pCards[i] === undefined || cCards[i] === undefined) {
-      //Do nothing, since there are no more cards in deck to access.
-      return
-    } else {
-      pWarCards.push(pCards[i]);
-      pCards.splice(i, 1);
-      cWarCards.push(cCards[i]);
-      cCards.splice(i, 1);
+    if (pCards[i] === undefined) {
+        //Do nothing
+     }else{
+        pWarCards.push(pCards[i]);
+        pCards.splice(i, 1);
+     }
+     
+     if(cCards[i] === undefined) {
+      //Do nothing 
+    }else{
+        cWarCards.push(cCards[i]);
+        cCards.splice(i, 1);
     }
   }
 
@@ -389,14 +394,14 @@ function winner(surrender) {
     if (pCards.length === 0) {
       //computer won
       battleMsg.innerText =
-        "We've lost my lord. \nThe enemy will storm\n the castle soon!";
+        "We lost my lord. \nThe enemy will storm\n the castle soon!";
       winnerValue = true;
       duelBtn.innerText = "Play\n Again?";
 
     } else if (cCards.length === 0) {
       //player won
       battleMsg.innerText =
-        "We've won my lord! \nThey were foolish\n to defy us!";
+        "We won my lord! \nThey were foolish\n to defy us!";
       winnerValue = true;
       duelBtn.innerText = "Play\n Again?";
     }
