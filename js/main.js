@@ -143,7 +143,7 @@ function renderDeckInContainer(playerDeck, computerDeck) {
 function splitDeck(deck) {//<-- splitting card deck
 
   deck.forEach(function (card) {
-    if (pCards.length <= 50) {
+    if (pCards.length <= 25) {
       pCards.push(card);
     } else {
       cCards.push(card);
